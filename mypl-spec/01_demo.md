@@ -1,3 +1,4 @@
+<pre>
 // this is a comment
 
 record Point {
@@ -51,3 +52,4 @@ function createRGB(Color color) {
         }
     }
 }
+</pre>
