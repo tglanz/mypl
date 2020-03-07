@@ -8,6 +8,7 @@ data Argument = Argument Name Type
 
 data Statement
   = Function Name [Argument] Type Expression
+  | Assignment
   deriving (Eq, Show)
   
 data Expression
