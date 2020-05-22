@@ -58,7 +58,7 @@ decrement: (value: i8) -> i8 = {
     return value - 1;
 }
 
-x: i8 = 0;
+var x: i8 = 0;
 x = increment(x);
 x = decrement(x);
 
