@@ -1,0 +1,64 @@
+2020-05-22T12:49:56.307026800-07:00 - hi
+2020-05-22T12:49:56.311025800-07:00 - staring to tokenize source: 
+// this is a.mypl file
+// and this is the second line of comments.
+// the tokenization process is starting to show it thing
+
+
+
+// post whitepsaces, does it work?
+// lets check
+2020-05-22T12:49:56.311025800-07:00 - 
+2020-05-22T12:49:56.311025800-07:00 - ==== next token ====
+2020-05-22T12:49:56.312023500-07:00 - rest of line: Some("// this is a.mypl file\r\n")
+2020-05-22T12:49:56.312023500-07:00 - comment detected start=0, end=24
+2020-05-22T12:49:56.312023500-07:00 - found: comment
+2020-05-22T12:49:56.312023500-07:00 - span: Span { start: 0, end: 24 }, actual source: Some("// this is a.mypl file\r\n")
+2020-05-22T12:49:56.312023500-07:00 - 
+2020-05-22T12:49:56.312023500-07:00 - ==== next token ====
+2020-05-22T12:49:56.312023500-07:00 - rest of line: Some("// and this is the second line of comments.\r\n")
+2020-05-22T12:49:56.312023500-07:00 - comment detected start=24, end=69
+2020-05-22T12:49:56.312023500-07:00 - found: comment
+2020-05-22T12:49:56.312023500-07:00 - span: Span { start: 24, end: 69 }, actual source: Some("// and this is the second line of comments.\r\n")
+2020-05-22T12:49:56.312023500-07:00 - 
+2020-05-22T12:49:56.313022400-07:00 - ==== next token ====
+2020-05-22T12:49:56.313022400-07:00 - rest of line: Some("// the tokenization process is starting to show it thing\r\n")
+2020-05-22T12:49:56.313022400-07:00 - comment detected start=69, end=127
+2020-05-22T12:49:56.313022400-07:00 - found: comment
+2020-05-22T12:49:56.313022400-07:00 - span: Span { start: 69, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\r\n")
+2020-05-22T12:49:56.313022400-07:00 - 
+2020-05-22T12:49:56.313022400-07:00 - ==== next token ====
+2020-05-22T12:49:56.313022400-07:00 - rest of line: Some("\r\n")
+2020-05-22T12:49:56.313022400-07:00 - whitespace detected start=127, end=133
+2020-05-22T12:49:56.313022400-07:00 - found: whitepsace
+2020-05-22T12:49:56.313022400-07:00 - span: Span { start: 127, end: 133 }, actual source: Some("\r\n\r\n\r\n")
+2020-05-22T12:49:56.313022400-07:00 - 
+2020-05-22T12:49:56.314021700-07:00 - ==== next token ====
+2020-05-22T12:49:56.314021700-07:00 - rest of line: Some("// post whitepsaces, does it work?\r\n")
+2020-05-22T12:49:56.314021700-07:00 - comment detected start=133, end=169
+2020-05-22T12:49:56.314021700-07:00 - found: comment
+2020-05-22T12:49:56.314021700-07:00 - span: Span { start: 133, end: 169 }, actual source: Some("// post whitepsaces, does it work?\r\n")
+2020-05-22T12:49:56.314021700-07:00 - 
+2020-05-22T12:49:56.314021700-07:00 - ==== next token ====
+2020-05-22T12:49:56.314021700-07:00 - rest of line: Some("// lets check")
+2020-05-22T12:49:56.314021700-07:00 - comment detected start=169, end=182
+2020-05-22T12:49:56.314021700-07:00 - found: comment
+2020-05-22T12:49:56.314021700-07:00 - span: Span { start: 169, end: 182 }, actual source: Some("// lets check")
+2020-05-22T12:49:56.314021700-07:00 - 
+2020-05-22T12:49:56.314021700-07:00 - ==== next token ====
+2020-05-22T12:49:56.314021700-07:00 - rest of line: None
+2020-05-22T12:49:56.315020900-07:00 - found: eof
+2020-05-22T12:49:56.315020900-07:00 - span: Span { start: 182, end: 182 }, actual source: Some("")
+2020-05-22T12:49:56.316020900-07:00 - staring to tokenize source: 
+// this is source file: b
+2020-05-22T12:49:56.316020900-07:00 - 
+2020-05-22T12:49:56.316020900-07:00 - ==== next token ====
+2020-05-22T12:49:56.316020900-07:00 - rest of line: Some("// this is source file: b")
+2020-05-22T12:49:56.316020900-07:00 - comment detected start=0, end=25
+2020-05-22T12:49:56.316020900-07:00 - found: comment
+2020-05-22T12:49:56.316020900-07:00 - span: Span { start: 0, end: 25 }, actual source: Some("// this is source file: b")
+2020-05-22T12:49:56.316020900-07:00 - 
+2020-05-22T12:49:56.316020900-07:00 - ==== next token ====
+2020-05-22T12:49:56.316020900-07:00 - rest of line: None
+2020-05-22T12:49:56.316020900-07:00 - found: eof
+2020-05-22T12:49:56.316020900-07:00 - span: Span { start: 25, end: 25 }, actual source: Some("")

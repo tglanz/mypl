@@ -1,0 +1,28 @@
+refresh_rate: 30 seconds
+appenders:
+  stdout:
+    kind: console
+  general_file:
+    kind: file
+    path: "logs/general.txt"
+    append: false
+    encoder:
+      pattern: "{d} - {m}{n}"
+  tokenization_file:
+    kind: file
+    path: "logs/tokenization.txt"
+    append: false
+    encoder:
+      pattern: "{d} - {m}{n}"
+
+root:
+  level: debug
+  appenders:
+    - general_file
+loggers:
+  mypl_compiler:
+    level: info
+  mypl_lex:
+    level: debug
+    appenders:
+      - tokenization_file

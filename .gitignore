@@ -1,4 +1,4 @@
-mypl-parse/.stack-work/
-mypl-parse/mypl-parse.cabal
-
-**/mypl-compiler/target
+target/
+mypl-compiler/target/
+mypl-lex/target/
+mypl-cli/target/
