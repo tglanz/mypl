@@ -37,7 +37,6 @@ impl TokenKind {
             Sentinel(SentinelType::EndOfFile) => "eof",
             Bracket(_, _) => "bracket",
             Invalid => "invalid",
-            _ => "unspecified"
         }
     }
 }

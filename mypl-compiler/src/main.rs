@@ -8,9 +8,8 @@ use std::path::Path;
 use std::process;
 
 fn main() {
-
     log4rs::init_file("resources/log4rs.yaml", Default::default()).unwrap();
-    log::info!("hi");
+    log::info!("welcome to mypl!");
 
     let arguments = mypl_cli::parse();
     mypl_cli::exec_default_behaviour(&arguments);

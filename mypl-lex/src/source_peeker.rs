@@ -4,9 +4,7 @@ pub struct SourcePeeker<'a> {
 
 impl<'a> SourcePeeker<'a> {
     pub fn new(source: &'a str) -> Self {
-        Self {
-            source
-        }
+        Self { source }
     }
 
     pub fn until(&self, offset: usize, until_char: char) -> Option<&'a str> {
@@ -17,7 +15,7 @@ impl<'a> SourcePeeker<'a> {
         let offsetted = &self.source[offset..];
         offsetted
             .find(until_char)
-            .map(|idx| &offsetted[0..idx+1])
+            .map(|idx| &offsetted[0..idx + 1])
             .or(Some(offsetted))
     }
 }

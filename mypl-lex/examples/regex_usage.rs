@@ -1,7 +1,7 @@
 extern crate regex;
 
-use std::fs;
 use regex::Regex;
+use std::fs;
 
 fn main() {
     showcase_2();

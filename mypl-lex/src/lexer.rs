@@ -42,18 +42,19 @@ impl<'a> Lexer<'a> {
         log::debug!("staring to tokenize source: \n{}", self.source);
 
         loop {
-
             log::debug!("");
             log::debug!("==== next token ====");
             let x = self.peeker.until(self.pos, '\n');
             log::debug!("rest of line: {:?}", x);
-            
+
             let mut token = self.next_token();
 
             log::debug!("found: {}", token.kind.short_name());
-            log::debug!("span: {:?}, actual source: {:?}",
+            log::debug!(
+                "span: {:?}, actual source: {:?}",
                 token.span,
-                token.span.slice_string(self.source));
+                token.span.slice_string(self.source)
+            );
             token = self.bump_token(token);
 
             ans.push(token);
@@ -65,14 +66,6 @@ impl<'a> Lexer<'a> {
         }
 
         ans
-    }
-
-    fn peek_until(&self, character: char) -> &'a str {
-        if let Some(idx) = &self.remaining_source().find(character) {
-            &self.remaining_source()[0..*idx]
-        } else {
-            ""
-        }
     }
 
     fn remaining_source(&self) -> &'a str {
@@ -87,7 +80,9 @@ impl<'a> Lexer<'a> {
     }
 
     fn tokenize_eof(&mut self) -> Option<Token> {
-        if self.pos < self.source.len() { None } else {
+        if self.pos < self.source.len() {
+            None
+        } else {
             Some(Token::create(
                 self.pos,
                 self.pos,
@@ -104,28 +99,24 @@ impl<'a> Lexer<'a> {
                 let start = self.pos;
                 let end = start + c.get(0).unwrap().range().len();
                 log::debug!("whitespace detected start={}, end={}", start, end);
-                Token::create(
-                    start,
-                    end,
-                    TokenKind::Whitespace,
-                )
+                Token::create(start, end, TokenKind::Whitespace)
             })
     }
 
     fn tokenize_comment(&mut self) -> Option<Token> {
         self.patterns
-        .comment
-        .captures(self.remaining_source())
-        .map(|c| {
-            let start = self.pos;
-            let end = start + c.get(0).unwrap().range().len();
-            log::debug!("comment detected start={}, end={}", start, end);
-            Token::create(
-                start,
-                end,
-                TokenKind::Comment(c.get(1).unwrap().as_str().trim().to_owned()),
-            )
-        })
+            .comment
+            .captures(self.remaining_source())
+            .map(|c| {
+                let start = self.pos;
+                let end = start + c.get(0).unwrap().range().len();
+                log::debug!("comment detected start={}, end={}", start, end);
+                Token::create(
+                    start,
+                    end,
+                    TokenKind::Comment(c.get(1).unwrap().as_str().trim().to_owned()),
+                )
+            })
     }
 
     fn bump_token(&mut self, token: Token) -> Token {
