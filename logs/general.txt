@@ -1,5 +1,6 @@
-2020-05-22T13:00:14.167294100-07:00 - welcome to mypl!
-2020-05-22T13:00:14.170289300-07:00 - staring to tokenize source: 
+2020-05-23T12:17:38.945219-07:00 - welcome to mypl!
+
+2020-05-23T12:17:38.949211900-07:00 - staring to tokenize source: 
 // this is a.mypl file
 // and this is the second line of comments.
 // the tokenization process is starting to show it thing
@@ -8,44 +9,108 @@
 
 // post whitepsaces, does it work?
 // lets check
-2020-05-22T13:00:14.171288600-07:00 - 
-2020-05-22T13:00:14.171288600-07:00 - ==== next token ====
-2020-05-22T13:00:14.171288600-07:00 - rest of line: Some("// this is a.mypl file\r\n")
-2020-05-22T13:00:14.171288600-07:00 - comment detected start=0, end=24
-2020-05-22T13:00:14.171288600-07:00 - found: comment
-2020-05-22T13:00:14.171288600-07:00 - span: Span { start: 0, end: 24 }, actual source: Some("// this is a.mypl file\r\n")
-2020-05-22T13:00:14.171288600-07:00 - 
-2020-05-22T13:00:14.171288600-07:00 - ==== next token ====
-2020-05-22T13:00:14.171288600-07:00 - rest of line: Some("// and this is the second line of comments.\r\n")
-2020-05-22T13:00:14.171288600-07:00 - comment detected start=24, end=69
-2020-05-22T13:00:14.171288600-07:00 - found: comment
-2020-05-22T13:00:14.172287500-07:00 - span: Span { start: 24, end: 69 }, actual source: Some("// and this is the second line of comments.\r\n")
-2020-05-22T13:00:14.172287500-07:00 - 
-2020-05-22T13:00:14.172287500-07:00 - ==== next token ====
-2020-05-22T13:00:14.172287500-07:00 - rest of line: Some("// the tokenization process is starting to show it thing\r\n")
-2020-05-22T13:00:14.172287500-07:00 - comment detected start=69, end=127
-2020-05-22T13:00:14.172287500-07:00 - found: comment
-2020-05-22T13:00:14.172287500-07:00 - span: Span { start: 69, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\r\n")
-2020-05-22T13:00:14.172287500-07:00 - 
-2020-05-22T13:00:14.172287500-07:00 - ==== next token ====
-2020-05-22T13:00:14.172287500-07:00 - rest of line: Some("\r\n")
-2020-05-22T13:00:14.172287500-07:00 - whitespace detected start=127, end=133
-2020-05-22T13:00:14.172287500-07:00 - found: whitepsace
-2020-05-22T13:00:14.173286800-07:00 - span: Span { start: 127, end: 133 }, actual source: Some("\r\n\r\n\r\n")
-2020-05-22T13:00:14.173286800-07:00 - 
-2020-05-22T13:00:14.173286800-07:00 - ==== next token ====
-2020-05-22T13:00:14.173286800-07:00 - rest of line: Some("// post whitepsaces, does it work?\r\n")
-2020-05-22T13:00:14.173286800-07:00 - comment detected start=133, end=169
-2020-05-22T13:00:14.173286800-07:00 - found: comment
-2020-05-22T13:00:14.173286800-07:00 - span: Span { start: 133, end: 169 }, actual source: Some("// post whitepsaces, does it work?\r\n")
-2020-05-22T13:00:14.173286800-07:00 - 
-2020-05-22T13:00:14.173286800-07:00 - ==== next token ====
-2020-05-22T13:00:14.173286800-07:00 - rest of line: Some("// lets check")
-2020-05-22T13:00:14.173286800-07:00 - comment detected start=169, end=182
-2020-05-22T13:00:14.173286800-07:00 - found: comment
-2020-05-22T13:00:14.174288800-07:00 - span: Span { start: 169, end: 182 }, actual source: Some("// lets check")
-2020-05-22T13:00:14.174288800-07:00 - 
-2020-05-22T13:00:14.174288800-07:00 - ==== next token ====
-2020-05-22T13:00:14.174288800-07:00 - rest of line: None
-2020-05-22T13:00:14.174288800-07:00 - found: eof
-2020-05-22T13:00:14.174288800-07:00 - span: Span { start: 182, end: 182 }, actual source: Some("")
+2020-05-23T12:17:38.949211900-07:00 - 
+2020-05-23T12:17:38.949211900-07:00 - ==== next token ====
+2020-05-23T12:17:38.949211900-07:00 - rest of line: Some("// this is a.mypl file\r\n")
+2020-05-23T12:17:38.950211400-07:00 - comment detected start=0, end=24
+2020-05-23T12:17:38.950211400-07:00 - found: comment
+2020-05-23T12:17:38.950211400-07:00 - span: Span { start: 0, end: 24 }, actual source: Some("// this is a.mypl file\r\n")
+2020-05-23T12:17:38.950211400-07:00 - 
+2020-05-23T12:17:38.950211400-07:00 - ==== next token ====
+2020-05-23T12:17:38.950211400-07:00 - rest of line: Some("// and this is the second line of comments.\r\n")
+2020-05-23T12:17:38.950211400-07:00 - comment detected start=24, end=69
+2020-05-23T12:17:38.950211400-07:00 - found: comment
+2020-05-23T12:17:38.950211400-07:00 - span: Span { start: 24, end: 69 }, actual source: Some("// and this is the second line of comments.\r\n")
+2020-05-23T12:17:38.950211400-07:00 - 
+2020-05-23T12:17:38.951210100-07:00 - ==== next token ====
+2020-05-23T12:17:38.951210100-07:00 - rest of line: Some("// the tokenization process is starting to show it thing\r\n")
+2020-05-23T12:17:38.951210100-07:00 - comment detected start=69, end=127
+2020-05-23T12:17:38.951210100-07:00 - found: comment
+2020-05-23T12:17:38.951210100-07:00 - span: Span { start: 69, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\r\n")
+2020-05-23T12:17:38.951210100-07:00 - 
+2020-05-23T12:17:38.951210100-07:00 - ==== next token ====
+2020-05-23T12:17:38.951210100-07:00 - rest of line: Some("\r\n")
+2020-05-23T12:17:38.951210100-07:00 - whitespace detected start=127, end=133
+2020-05-23T12:17:38.951210100-07:00 - found: whitepsace
+2020-05-23T12:17:38.951210100-07:00 - span: Span { start: 127, end: 133 }, actual source: Some("\r\n\r\n\r\n")
+2020-05-23T12:17:38.952210200-07:00 - 
+2020-05-23T12:17:38.952210200-07:00 - ==== next token ====
+2020-05-23T12:17:38.952210200-07:00 - rest of line: Some("// post whitepsaces, does it work?\r\n")
+2020-05-23T12:17:38.952210200-07:00 - comment detected start=133, end=169
+2020-05-23T12:17:38.952210200-07:00 - found: comment
+2020-05-23T12:17:38.952210200-07:00 - span: Span { start: 133, end: 169 }, actual source: Some("// post whitepsaces, does it work?\r\n")
+2020-05-23T12:17:38.952210200-07:00 - 
+2020-05-23T12:17:38.952210200-07:00 - ==== next token ====
+2020-05-23T12:17:38.952210200-07:00 - rest of line: Some("// lets check")
+2020-05-23T12:17:38.952210200-07:00 - comment detected start=169, end=182
+2020-05-23T12:17:38.952210200-07:00 - found: comment
+2020-05-23T12:17:38.952210200-07:00 - span: Span { start: 169, end: 182 }, actual source: Some("// lets check")
+2020-05-23T12:17:38.953209700-07:00 - 
+2020-05-23T12:17:38.953209700-07:00 - ==== next token ====
+2020-05-23T12:17:38.953209700-07:00 - rest of line: None
+2020-05-23T12:17:38.953209700-07:00 - found: eof
+2020-05-23T12:17:38.953209700-07:00 - span: Span { start: 182, end: 182 }, actual source: Some("")
+2020-05-23T12:17:38.976197700-07:00 - tokens of "resources/code-examples/just-comments.mypl":
+[
+    Token {
+        kind: Comment(
+            "this is a.mypl file",
+        ),
+        span: Span {
+            start: 0,
+            end: 24,
+        },
+    },
+    Token {
+        kind: Comment(
+            "and this is the second line of comments.",
+        ),
+        span: Span {
+            start: 24,
+            end: 69,
+        },
+    },
+    Token {
+        kind: Comment(
+            "the tokenization process is starting to show it thing",
+        ),
+        span: Span {
+            start: 69,
+            end: 127,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 127,
+            end: 133,
+        },
+    },
+    Token {
+        kind: Comment(
+            "post whitepsaces, does it work?",
+        ),
+        span: Span {
+            start: 133,
+            end: 169,
+        },
+    },
+    Token {
+        kind: Comment(
+            "lets check",
+        ),
+        span: Span {
+            start: 169,
+            end: 182,
+        },
+    },
+    Token {
+        kind: Sentinel(
+            EndOfFile,
+        ),
+        span: Span {
+            start: 182,
+            end: 182,
+        },
+    },
+]

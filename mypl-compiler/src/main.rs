@@ -9,7 +9,7 @@ use std::process;
 
 fn main() {
     log4rs::init_file("resources/log4rs.yaml", Default::default()).unwrap();
-    log::info!("welcome to mypl!");
+    log::info!("welcome to mypl!\n");
 
     let arguments = mypl_cli::parse();
     mypl_cli::exec_default_behaviour(&arguments);
@@ -20,8 +20,13 @@ fn main() {
         let code = try_read_file(Path::new(input));
         log::debug!("code:\n{}", code);
 
-        let tokens = mypl_lex::Lexer::new(&code).tokenize();
-        log::debug!("tokens:\n{:#?}", tokens);
+        let tokens = mypl_lex::lexer::Lexer::new(&code).tokenize();
+        
+        if arguments.show_tokens {
+            log::info!("tokens of {:?}:\n{:#?}", input, tokens);
+        } else {
+            log::debug!("tokens:\n{:#?}", tokens);
+        }
     }
 }
 

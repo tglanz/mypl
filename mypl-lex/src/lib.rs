@@ -1,13 +1,18 @@
 extern crate log;
 extern crate regex;
 
+mod patterns;
 mod source_peeker;
-mod span;
 
 pub mod lexer;
+pub mod span;
 pub mod tokens;
 
-pub use lexer::*;
-pub use source_peeker::*;
-pub use span::*;
-pub use tokens::*;
+pub mod prelude {
+    pub use super::lexer::*;
+    pub use super::span::*;
+    pub use super::tokens::*;
+
+    pub(crate) use super::patterns::*;
+    pub(crate) use super::source_peeker::*;
+}

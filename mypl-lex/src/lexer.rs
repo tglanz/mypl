@@ -1,22 +1,6 @@
-use crate::*;
-
-use regex::Regex;
+use crate::prelude::*;
 
 use log;
-
-struct Patterns {
-    pub whitespace: Regex,
-    pub comment: Regex,
-}
-
-impl Default for Patterns {
-    fn default() -> Patterns {
-        Patterns {
-            comment: Regex::new("^//(.*)\n*").unwrap(),
-            whitespace: Regex::new(r"^[\t\n\r\f]+").unwrap(),
-        }
-    }
-}
 
 pub struct Lexer<'a> {
     //source: &'a str,

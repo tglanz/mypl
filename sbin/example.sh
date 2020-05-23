@@ -1,5 +1,4 @@
 #!/bin/bash
 
-cargo run -- \
-    -i resources/code-examples/a.mypl \
-    -i resources/code-examples/b.mypl
+cargo run -- --show-tokens \
+    -i resources/code-examples/just-comments.mypl

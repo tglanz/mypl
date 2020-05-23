@@ -8,6 +8,7 @@ pub struct Arguments {
     pub inputs: Vec<String>,
     pub help: bool,
     pub error: Option<String>,
+    pub show_tokens: bool,
 }
 
 pub fn usage() -> String {
@@ -18,6 +19,8 @@ OPTIONS
     -h,--help       enable; show this help message
     -v,--verbose    enable; debug message
     -i,--input      list; input files
+
+    --show-tokens   display tokens after tokeniztion process
 
 POSITIONALS
     output          path; indicates where to save outputs
@@ -36,6 +39,10 @@ pub fn parse() -> Arguments {
         if eq_any(&key, &["-h", "--help"]) {
             arguments.abort = true;
             arguments.help = true;
+        }
+
+        if key == "--show-tokens" {
+            arguments.show_tokens = true;
         }
 
         if eq_any(&key, &["-i", "--input"]) {

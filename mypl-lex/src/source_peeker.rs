@@ -1,4 +1,4 @@
-pub struct SourcePeeker<'a> {
+pub(crate) struct SourcePeeker<'a> {
     source: &'a str,
 }
 
