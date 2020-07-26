@@ -7,6 +7,7 @@ mod source_peeker;
 pub mod lexer;
 pub mod span;
 pub mod tokens;
+pub mod keywords;
 
 pub mod prelude {
     pub use super::lexer::*;

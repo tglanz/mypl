@@ -1,3 +1,5 @@
+use log;
+
 pub(crate) struct SourcePeeker<'a> {
     source: &'a str,
 }
@@ -17,5 +19,11 @@ impl<'a> SourcePeeker<'a> {
             .find(until_char)
             .map(|idx| &offsetted[0..idx + 1])
             .or(Some(offsetted))
+    }
+
+    pub fn starts_with(&self, offset: usize, string: &str) -> bool {
+        let len = self.source.len();
+        log::debug!("source_peeker#starts_with({}, {}); len={}", offset, string, len);
+        offset < len && self.source[offset..].starts_with(string)
     }
 }

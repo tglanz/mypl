@@ -27,7 +27,7 @@ z: u8 = 40;
 x: u32 = 0;
 y: u32 = 0;
 
-for (i in 0..1000) {
+for i in 0..1000 {
     if (i mod 2 == 0 and i < 300) {
         x = x + i;
     } else if (i mod 2 == 1 and i > 500 and i < 1000) {
@@ -116,14 +116,14 @@ potentially, we aim for the following capability
 Rectangle = record {
     center: Point,
     width: u32,
-    height: 32,
+    height: u32,
 };
 
 // define a square record
 Square = record {
     center: Point,
     width: u32,
-    height: 32,
+    height: u32,
 };
 
 // define a geometry union using already defined records

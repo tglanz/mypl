@@ -3,4 +3,4 @@
 * [features](./laguage-features.md)
 * [syntax-goals](./syntax-goals.md)
 * [showcase](./showcase.md)
-* [bnd](./bnf.md) - not really
+* [bnf](./bnf.md) - not really

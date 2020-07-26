@@ -1,4 +1,5 @@
 use crate::prelude::*;
+use crate::keywords;
 
 use log;
 
@@ -8,6 +9,7 @@ pub struct Lexer<'a> {
     peeker: SourcePeeker<'a>,
     patterns: Patterns,
     pos: usize,
+    all_keywords: Vec<Keyword>,
 }
 
 impl<'a> Lexer<'a> {
@@ -17,6 +19,7 @@ impl<'a> Lexer<'a> {
             peeker: SourcePeeker::new(source),
             patterns: Patterns::default(),
             pos: 0,
+            all_keywords: keywords::create_all()
         }
     }
 
@@ -60,6 +63,7 @@ impl<'a> Lexer<'a> {
         self.tokenize_eof()
             .or_else(|| self.tokenize_whitespace())
             .or_else(|| self.tokenize_comment())
+            .or_else(|| self.tokenize_keyword())
             .unwrap_or_else(|| Token::create_invalid(self.pos))
     }
 
@@ -76,6 +80,7 @@ impl<'a> Lexer<'a> {
     }
 
     fn tokenize_whitespace(&mut self) -> Option<Token> {
+        log::debug!("tokenize_whitespace");
         self.patterns
             .whitespace
             .captures(self.remaining_source())
@@ -101,6 +106,18 @@ impl<'a> Lexer<'a> {
                     TokenKind::Comment(c.get(1).unwrap().as_str().trim().to_owned()),
                 )
             })
+    }
+
+    fn tokenize_keyword(&mut self) -> Option<Token> {
+        for keyword in self.all_keywords.iter() {
+            let code = keyword.to_code();
+            log::debug!("checking if keyword: {}", code);
+            if self.peeker.starts_with(self.pos, code) {
+                return Some(Token::create_keyword(self.pos, *keyword));
+            }
+        }
+
+        None
     }
 
     fn bump_token(&mut self, token: Token) -> Token {

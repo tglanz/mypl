@@ -27,6 +27,11 @@ fn main() {
         } else {
             log::debug!("tokens:\n{:#?}", tokens);
         }
+
+        if tokens.iter().any(|token| token.kind.is_invalid()) {
+            log::error!("failed to tokenize, found an invalid token at: {:?}", input);
+            return;
+        }
     }
 }
 

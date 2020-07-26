@@ -9,7 +9,7 @@ impl Default for Patterns {
     fn default() -> Patterns {
         Patterns {
             comment: Regex::new("^//(.*)\n*").unwrap(),
-            whitespace: Regex::new(r"^[\t\n\r]+").unwrap(),
+            whitespace: Regex::new(r"^[\t\n\r ]+").unwrap(),
         }
     }
 }

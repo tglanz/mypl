@@ -1,6 +1,6 @@
-2020-05-23T12:17:38.945219-07:00 - welcome to mypl!
+2020-07-26T22:12:46.153307787+03:00 - welcome to mypl!
 
-2020-05-23T12:17:38.949211900-07:00 - staring to tokenize source: 
+2020-07-26T22:12:46.154646665+03:00 - staring to tokenize source: 
 // this is a.mypl file
 // and this is the second line of comments.
 // the tokenization process is starting to show it thing
@@ -9,48 +9,47 @@
 
 // post whitepsaces, does it work?
 // lets check
-2020-05-23T12:17:38.949211900-07:00 - 
-2020-05-23T12:17:38.949211900-07:00 - ==== next token ====
-2020-05-23T12:17:38.949211900-07:00 - rest of line: Some("// this is a.mypl file\r\n")
-2020-05-23T12:17:38.950211400-07:00 - comment detected start=0, end=24
-2020-05-23T12:17:38.950211400-07:00 - found: comment
-2020-05-23T12:17:38.950211400-07:00 - span: Span { start: 0, end: 24 }, actual source: Some("// this is a.mypl file\r\n")
-2020-05-23T12:17:38.950211400-07:00 - 
-2020-05-23T12:17:38.950211400-07:00 - ==== next token ====
-2020-05-23T12:17:38.950211400-07:00 - rest of line: Some("// and this is the second line of comments.\r\n")
-2020-05-23T12:17:38.950211400-07:00 - comment detected start=24, end=69
-2020-05-23T12:17:38.950211400-07:00 - found: comment
-2020-05-23T12:17:38.950211400-07:00 - span: Span { start: 24, end: 69 }, actual source: Some("// and this is the second line of comments.\r\n")
-2020-05-23T12:17:38.950211400-07:00 - 
-2020-05-23T12:17:38.951210100-07:00 - ==== next token ====
-2020-05-23T12:17:38.951210100-07:00 - rest of line: Some("// the tokenization process is starting to show it thing\r\n")
-2020-05-23T12:17:38.951210100-07:00 - comment detected start=69, end=127
-2020-05-23T12:17:38.951210100-07:00 - found: comment
-2020-05-23T12:17:38.951210100-07:00 - span: Span { start: 69, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\r\n")
-2020-05-23T12:17:38.951210100-07:00 - 
-2020-05-23T12:17:38.951210100-07:00 - ==== next token ====
-2020-05-23T12:17:38.951210100-07:00 - rest of line: Some("\r\n")
-2020-05-23T12:17:38.951210100-07:00 - whitespace detected start=127, end=133
-2020-05-23T12:17:38.951210100-07:00 - found: whitepsace
-2020-05-23T12:17:38.951210100-07:00 - span: Span { start: 127, end: 133 }, actual source: Some("\r\n\r\n\r\n")
-2020-05-23T12:17:38.952210200-07:00 - 
-2020-05-23T12:17:38.952210200-07:00 - ==== next token ====
-2020-05-23T12:17:38.952210200-07:00 - rest of line: Some("// post whitepsaces, does it work?\r\n")
-2020-05-23T12:17:38.952210200-07:00 - comment detected start=133, end=169
-2020-05-23T12:17:38.952210200-07:00 - found: comment
-2020-05-23T12:17:38.952210200-07:00 - span: Span { start: 133, end: 169 }, actual source: Some("// post whitepsaces, does it work?\r\n")
-2020-05-23T12:17:38.952210200-07:00 - 
-2020-05-23T12:17:38.952210200-07:00 - ==== next token ====
-2020-05-23T12:17:38.952210200-07:00 - rest of line: Some("// lets check")
-2020-05-23T12:17:38.952210200-07:00 - comment detected start=169, end=182
-2020-05-23T12:17:38.952210200-07:00 - found: comment
-2020-05-23T12:17:38.952210200-07:00 - span: Span { start: 169, end: 182 }, actual source: Some("// lets check")
-2020-05-23T12:17:38.953209700-07:00 - 
-2020-05-23T12:17:38.953209700-07:00 - ==== next token ====
-2020-05-23T12:17:38.953209700-07:00 - rest of line: None
-2020-05-23T12:17:38.953209700-07:00 - found: eof
-2020-05-23T12:17:38.953209700-07:00 - span: Span { start: 182, end: 182 }, actual source: Some("")
-2020-05-23T12:17:38.976197700-07:00 - tokens of "resources/code-examples/just-comments.mypl":
+2020-07-26T22:12:46.154736401+03:00 - 
+2020-07-26T22:12:46.154811203+03:00 - ==== next token ====
+2020-07-26T22:12:46.154922053+03:00 - rest of line: Some("// this is a.mypl file\n")
+2020-07-26T22:12:46.155012907+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.155340120+03:00 - comment detected start=0, end=23
+2020-07-26T22:12:46.155443207+03:00 - found: comment
+2020-07-26T22:12:46.155542869+03:00 - span: Span { start: 0, end: 23 }, actual source: Some("// this is a.mypl file\n")
+2020-07-26T22:12:46.155647758+03:00 - 
+2020-07-26T22:12:46.155877338+03:00 - ==== next token ====
+2020-07-26T22:12:46.155978451+03:00 - rest of line: Some("// and this is the second line of comments.\n")
+2020-07-26T22:12:46.156067265+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.156237767+03:00 - comment detected start=23, end=67
+2020-07-26T22:12:46.156336819+03:00 - found: comment
+2020-07-26T22:12:46.156435960+03:00 - span: Span { start: 23, end: 67 }, actual source: Some("// and this is the second line of comments.\n")
+2020-07-26T22:12:46.156531842+03:00 - 
+2020-07-26T22:12:46.156614557+03:00 - ==== next token ====
+2020-07-26T22:12:46.156707728+03:00 - rest of line: Some("// the tokenization process is starting to show it thing\n")
+2020-07-26T22:12:46.156802682+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.156972474+03:00 - comment detected start=67, end=127
+2020-07-26T22:12:46.157072970+03:00 - found: comment
+2020-07-26T22:12:46.157169503+03:00 - span: Span { start: 67, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\n\n\n\n")
+2020-07-26T22:12:46.157273986+03:00 - 
+2020-07-26T22:12:46.157352370+03:00 - ==== next token ====
+2020-07-26T22:12:46.157447183+03:00 - rest of line: Some("// post whitepsaces, does it work?\n")
+2020-07-26T22:12:46.157538455+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.157686436+03:00 - comment detected start=127, end=162
+2020-07-26T22:12:46.157800509+03:00 - found: comment
+2020-07-26T22:12:46.157913141+03:00 - span: Span { start: 127, end: 162 }, actual source: Some("// post whitepsaces, does it work?\n")
+2020-07-26T22:12:46.158037+03:00 - 
+2020-07-26T22:12:46.158127849+03:00 - ==== next token ====
+2020-07-26T22:12:46.158252010+03:00 - rest of line: Some("// lets check")
+2020-07-26T22:12:46.158360122+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.158696746+03:00 - comment detected start=162, end=175
+2020-07-26T22:12:46.158889403+03:00 - found: comment
+2020-07-26T22:12:46.159031157+03:00 - span: Span { start: 162, end: 175 }, actual source: Some("// lets check")
+2020-07-26T22:12:46.159152267+03:00 - 
+2020-07-26T22:12:46.159229145+03:00 - ==== next token ====
+2020-07-26T22:12:46.159309476+03:00 - rest of line: None
+2020-07-26T22:12:46.159391377+03:00 - found: eof
+2020-07-26T22:12:46.159493922+03:00 - span: Span { start: 175, end: 175 }, actual source: Some("")
+2020-07-26T22:12:46.160503187+03:00 - tokens of "resources/code-examples/just-comments.mypl":
 [
     Token {
         kind: Comment(
@@ -58,7 +57,7 @@
         ),
         span: Span {
             start: 0,
-            end: 24,
+            end: 23,
         },
     },
     Token {
@@ -66,8 +65,8 @@
             "and this is the second line of comments.",
         ),
         span: Span {
-            start: 24,
-            end: 69,
+            start: 23,
+            end: 67,
         },
     },
     Token {
@@ -75,15 +74,8 @@
             "the tokenization process is starting to show it thing",
         ),
         span: Span {
-            start: 69,
+            start: 67,
             end: 127,
-        },
-    },
-    Token {
-        kind: Whitespace,
-        span: Span {
-            start: 127,
-            end: 133,
         },
     },
     Token {
@@ -91,8 +83,8 @@
             "post whitepsaces, does it work?",
         ),
         span: Span {
-            start: 133,
-            end: 169,
+            start: 127,
+            end: 162,
         },
     },
     Token {
@@ -100,8 +92,8 @@
             "lets check",
         ),
         span: Span {
-            start: 169,
-            end: 182,
+            start: 162,
+            end: 175,
         },
     },
     Token {
@@ -109,8 +101,478 @@
             EndOfFile,
         ),
         span: Span {
-            start: 182,
-            end: 182,
+            start: 175,
+            end: 175,
+        },
+    },
+]
+2020-07-26T22:12:46.163165062+03:00 - staring to tokenize source: 
+u32  i8
+
+    u8 i32
+
+for if
+
+   loop
+
+record union
+
+cst var
+2020-07-26T22:12:46.163242418+03:00 - 
+2020-07-26T22:12:46.163307909+03:00 - ==== next token ====
+2020-07-26T22:12:46.163386077+03:00 - rest of line: Some("u32  i8\n")
+2020-07-26T22:12:46.163457875+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.163702676+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.163775980+03:00 - source_peeker#starts_with(0, u8); len=59
+2020-07-26T22:12:46.163848301+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.163933484+03:00 - source_peeker#starts_with(0, u32); len=59
+2020-07-26T22:12:46.164004182+03:00 - found: keyword(u32)
+2020-07-26T22:12:46.164079343+03:00 - span: Span { start: 0, end: 3 }, actual source: Some("u32")
+2020-07-26T22:12:46.164155294+03:00 - 
+2020-07-26T22:12:46.164217522+03:00 - ==== next token ====
+2020-07-26T22:12:46.164289425+03:00 - rest of line: Some("  i8\n")
+2020-07-26T22:12:46.164371468+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.164584020+03:00 - whitespace detected start=3, end=5
+2020-07-26T22:12:46.164657036+03:00 - found: whitepsace
+2020-07-26T22:12:46.164731953+03:00 - span: Span { start: 3, end: 5 }, actual source: Some("  ")
+2020-07-26T22:12:46.164803697+03:00 - 
+2020-07-26T22:12:46.164866983+03:00 - ==== next token ====
+2020-07-26T22:12:46.164939755+03:00 - rest of line: Some("i8\n")
+2020-07-26T22:12:46.165007942+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.165103321+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.165175491+03:00 - source_peeker#starts_with(5, u8); len=59
+2020-07-26T22:12:46.165249608+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.165320260+03:00 - source_peeker#starts_with(5, u32); len=59
+2020-07-26T22:12:46.165392853+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.165464014+03:00 - source_peeker#starts_with(5, i8); len=59
+2020-07-26T22:12:46.165538329+03:00 - found: keyword(i8)
+2020-07-26T22:12:46.165617681+03:00 - span: Span { start: 5, end: 7 }, actual source: Some("i8")
+2020-07-26T22:12:46.165709097+03:00 - 
+2020-07-26T22:12:46.165777762+03:00 - ==== next token ====
+2020-07-26T22:12:46.165853625+03:00 - rest of line: Some("\n")
+2020-07-26T22:12:46.165938474+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.166085753+03:00 - whitespace detected start=7, end=13
+2020-07-26T22:12:46.166159005+03:00 - found: whitepsace
+2020-07-26T22:12:46.166238085+03:00 - span: Span { start: 7, end: 13 }, actual source: Some("\n\n    ")
+2020-07-26T22:12:46.166315187+03:00 - 
+2020-07-26T22:12:46.166379201+03:00 - ==== next token ====
+2020-07-26T22:12:46.166452199+03:00 - rest of line: Some("u8 i32\n")
+2020-07-26T22:12:46.166533361+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.166632835+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.166701841+03:00 - source_peeker#starts_with(13, u8); len=59
+2020-07-26T22:12:46.166772390+03:00 - found: keyword(u8)
+2020-07-26T22:12:46.166850252+03:00 - span: Span { start: 13, end: 15 }, actual source: Some("u8")
+2020-07-26T22:12:46.166931635+03:00 - 
+2020-07-26T22:12:46.166994453+03:00 - ==== next token ====
+2020-07-26T22:12:46.167068848+03:00 - rest of line: Some(" i32\n")
+2020-07-26T22:12:46.167139164+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.167253080+03:00 - whitespace detected start=15, end=16
+2020-07-26T22:12:46.167325030+03:00 - found: whitepsace
+2020-07-26T22:12:46.167400232+03:00 - span: Span { start: 15, end: 16 }, actual source: Some(" ")
+2020-07-26T22:12:46.167473220+03:00 - 
+2020-07-26T22:12:46.167536222+03:00 - ==== next token ====
+2020-07-26T22:12:46.167608467+03:00 - rest of line: Some("i32\n")
+2020-07-26T22:12:46.167677091+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.167771977+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.167839897+03:00 - source_peeker#starts_with(16, u8); len=59
+2020-07-26T22:12:46.167920760+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.167985136+03:00 - source_peeker#starts_with(16, u32); len=59
+2020-07-26T22:12:46.168065570+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.168131388+03:00 - source_peeker#starts_with(16, i8); len=59
+2020-07-26T22:12:46.168197708+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.168269144+03:00 - source_peeker#starts_with(16, i32); len=59
+2020-07-26T22:12:46.168337998+03:00 - found: keyword(i32)
+2020-07-26T22:12:46.168412330+03:00 - span: Span { start: 16, end: 19 }, actual source: Some("i32")
+2020-07-26T22:12:46.168482502+03:00 - 
+2020-07-26T22:12:46.168543357+03:00 - ==== next token ====
+2020-07-26T22:12:46.168614399+03:00 - rest of line: Some("\n")
+2020-07-26T22:12:46.168681793+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.168794243+03:00 - whitespace detected start=19, end=21
+2020-07-26T22:12:46.168865673+03:00 - found: whitepsace
+2020-07-26T22:12:46.168940138+03:00 - span: Span { start: 19, end: 21 }, actual source: Some("\n\n")
+2020-07-26T22:12:46.169026991+03:00 - 
+2020-07-26T22:12:46.169092149+03:00 - ==== next token ====
+2020-07-26T22:12:46.169163181+03:00 - rest of line: Some("for if\n")
+2020-07-26T22:12:46.169239951+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.169337443+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.169405981+03:00 - source_peeker#starts_with(21, u8); len=59
+2020-07-26T22:12:46.169476148+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.169543880+03:00 - source_peeker#starts_with(21, u32); len=59
+2020-07-26T22:12:46.169612515+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.169676907+03:00 - source_peeker#starts_with(21, i8); len=59
+2020-07-26T22:12:46.169743132+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.169807876+03:00 - source_peeker#starts_with(21, i32); len=59
+2020-07-26T22:12:46.169873973+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.169939025+03:00 - source_peeker#starts_with(21, cst); len=59
+2020-07-26T22:12:46.170003795+03:00 - checking if keyword: var
+2020-07-26T22:12:46.170067154+03:00 - source_peeker#starts_with(21, var); len=59
+2020-07-26T22:12:46.170132003+03:00 - checking if keyword: union
+2020-07-26T22:12:46.170195617+03:00 - source_peeker#starts_with(21, union); len=59
+2020-07-26T22:12:46.170260697+03:00 - checking if keyword: record
+2020-07-26T22:12:46.170324317+03:00 - source_peeker#starts_with(21, record); len=59
+2020-07-26T22:12:46.170389129+03:00 - checking if keyword: if
+2020-07-26T22:12:46.170452171+03:00 - source_peeker#starts_with(21, if); len=59
+2020-07-26T22:12:46.170515633+03:00 - checking if keyword: else
+2020-07-26T22:12:46.170577026+03:00 - source_peeker#starts_with(21, else); len=59
+2020-07-26T22:12:46.170638978+03:00 - checking if keyword: for
+2020-07-26T22:12:46.170699054+03:00 - source_peeker#starts_with(21, for); len=59
+2020-07-26T22:12:46.170764553+03:00 - found: keyword(for)
+2020-07-26T22:12:46.170838358+03:00 - span: Span { start: 21, end: 24 }, actual source: Some("for")
+2020-07-26T22:12:46.170925888+03:00 - 
+2020-07-26T22:12:46.170982208+03:00 - ==== next token ====
+2020-07-26T22:12:46.171047934+03:00 - rest of line: Some(" if\n")
+2020-07-26T22:12:46.171110+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.171193498+03:00 - whitespace detected start=24, end=25
+2020-07-26T22:12:46.171257448+03:00 - found: whitepsace
+2020-07-26T22:12:46.171324500+03:00 - span: Span { start: 24, end: 25 }, actual source: Some(" ")
+2020-07-26T22:12:46.171390533+03:00 - 
+2020-07-26T22:12:46.171447177+03:00 - ==== next token ====
+2020-07-26T22:12:46.171520261+03:00 - rest of line: Some("if\n")
+2020-07-26T22:12:46.171581826+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.171668106+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.171731134+03:00 - source_peeker#starts_with(25, u8); len=59
+2020-07-26T22:12:46.171794226+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.171856229+03:00 - source_peeker#starts_with(25, u32); len=59
+2020-07-26T22:12:46.171918784+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.171981363+03:00 - source_peeker#starts_with(25, i8); len=59
+2020-07-26T22:12:46.172045532+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.172119914+03:00 - source_peeker#starts_with(25, i32); len=59
+2020-07-26T22:12:46.172185143+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.172248038+03:00 - source_peeker#starts_with(25, cst); len=59
+2020-07-26T22:12:46.172311306+03:00 - checking if keyword: var
+2020-07-26T22:12:46.172386752+03:00 - source_peeker#starts_with(25, var); len=59
+2020-07-26T22:12:46.172456167+03:00 - checking if keyword: union
+2020-07-26T22:12:46.172530302+03:00 - source_peeker#starts_with(25, union); len=59
+2020-07-26T22:12:46.172605007+03:00 - checking if keyword: record
+2020-07-26T22:12:46.172682928+03:00 - source_peeker#starts_with(25, record); len=59
+2020-07-26T22:12:46.172759030+03:00 - checking if keyword: if
+2020-07-26T22:12:46.172831857+03:00 - source_peeker#starts_with(25, if); len=59
+2020-07-26T22:12:46.172924852+03:00 - found: keyword(if)
+2020-07-26T22:12:46.173015334+03:00 - span: Span { start: 25, end: 27 }, actual source: Some("if")
+2020-07-26T22:12:46.173100500+03:00 - 
+2020-07-26T22:12:46.173173318+03:00 - ==== next token ====
+2020-07-26T22:12:46.173257360+03:00 - rest of line: Some("\n")
+2020-07-26T22:12:46.173344854+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.173458413+03:00 - whitespace detected start=27, end=32
+2020-07-26T22:12:46.173540580+03:00 - found: whitepsace
+2020-07-26T22:12:46.173628538+03:00 - span: Span { start: 27, end: 32 }, actual source: Some("\n\n   ")
+2020-07-26T22:12:46.173714841+03:00 - 
+2020-07-26T22:12:46.173793546+03:00 - ==== next token ====
+2020-07-26T22:12:46.173877359+03:00 - rest of line: Some("loop\n")
+2020-07-26T22:12:46.173959630+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.174069401+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.174151255+03:00 - source_peeker#starts_with(32, u8); len=59
+2020-07-26T22:12:46.174233488+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.174312965+03:00 - source_peeker#starts_with(32, u32); len=59
+2020-07-26T22:12:46.174394346+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.174474175+03:00 - source_peeker#starts_with(32, i8); len=59
+2020-07-26T22:12:46.174555067+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.174633962+03:00 - source_peeker#starts_with(32, i32); len=59
+2020-07-26T22:12:46.174714725+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.174793677+03:00 - source_peeker#starts_with(32, cst); len=59
+2020-07-26T22:12:46.174874692+03:00 - checking if keyword: var
+2020-07-26T22:12:46.174954079+03:00 - source_peeker#starts_with(32, var); len=59
+2020-07-26T22:12:46.175035186+03:00 - checking if keyword: union
+2020-07-26T22:12:46.175118282+03:00 - source_peeker#starts_with(32, union); len=59
+2020-07-26T22:12:46.175199440+03:00 - checking if keyword: record
+2020-07-26T22:12:46.175278519+03:00 - source_peeker#starts_with(32, record); len=59
+2020-07-26T22:12:46.175359663+03:00 - checking if keyword: if
+2020-07-26T22:12:46.175439228+03:00 - source_peeker#starts_with(32, if); len=59
+2020-07-26T22:12:46.175519696+03:00 - checking if keyword: else
+2020-07-26T22:12:46.175598353+03:00 - source_peeker#starts_with(32, else); len=59
+2020-07-26T22:12:46.175750167+03:00 - checking if keyword: for
+2020-07-26T22:12:46.175836256+03:00 - source_peeker#starts_with(32, for); len=59
+2020-07-26T22:12:46.175918526+03:00 - checking if keyword: loop
+2020-07-26T22:12:46.175998285+03:00 - source_peeker#starts_with(32, loop); len=59
+2020-07-26T22:12:46.176080873+03:00 - found: keyword(loop)
+2020-07-26T22:12:46.176170971+03:00 - span: Span { start: 32, end: 36 }, actual source: Some("loop")
+2020-07-26T22:12:46.176255885+03:00 - 
+2020-07-26T22:12:46.176329644+03:00 - ==== next token ====
+2020-07-26T22:12:46.176413872+03:00 - rest of line: Some("\n")
+2020-07-26T22:12:46.176493468+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.176598073+03:00 - whitespace detected start=36, end=38
+2020-07-26T22:12:46.176680037+03:00 - found: whitepsace
+2020-07-26T22:12:46.176767495+03:00 - span: Span { start: 36, end: 38 }, actual source: Some("\n\n")
+2020-07-26T22:12:46.176859297+03:00 - 
+2020-07-26T22:12:46.176933293+03:00 - ==== next token ====
+2020-07-26T22:12:46.177030808+03:00 - rest of line: Some("record union\n")
+2020-07-26T22:12:46.177104505+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.177209806+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.177281212+03:00 - source_peeker#starts_with(38, u8); len=59
+2020-07-26T22:12:46.177351354+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.177420174+03:00 - source_peeker#starts_with(38, u32); len=59
+2020-07-26T22:12:46.177489911+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.177558145+03:00 - source_peeker#starts_with(38, i8); len=59
+2020-07-26T22:12:46.177628454+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.177707149+03:00 - source_peeker#starts_with(38, i32); len=59
+2020-07-26T22:12:46.177778452+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.177847553+03:00 - source_peeker#starts_with(38, cst); len=59
+2020-07-26T22:12:46.177916358+03:00 - checking if keyword: var
+2020-07-26T22:12:46.177982984+03:00 - source_peeker#starts_with(38, var); len=59
+2020-07-26T22:12:46.178051252+03:00 - checking if keyword: union
+2020-07-26T22:12:46.178118200+03:00 - source_peeker#starts_with(38, union); len=59
+2020-07-26T22:12:46.178192999+03:00 - checking if keyword: record
+2020-07-26T22:12:46.178262748+03:00 - source_peeker#starts_with(38, record); len=59
+2020-07-26T22:12:46.178334362+03:00 - found: keyword(record)
+2020-07-26T22:12:46.178411427+03:00 - span: Span { start: 38, end: 44 }, actual source: Some("record")
+2020-07-26T22:12:46.178484439+03:00 - 
+2020-07-26T22:12:46.178547640+03:00 - ==== next token ====
+2020-07-26T22:12:46.178619910+03:00 - rest of line: Some(" union\n")
+2020-07-26T22:12:46.178688360+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.178775615+03:00 - whitespace detected start=44, end=45
+2020-07-26T22:12:46.178845914+03:00 - found: whitepsace
+2020-07-26T22:12:46.178919740+03:00 - span: Span { start: 44, end: 45 }, actual source: Some(" ")
+2020-07-26T22:12:46.178992260+03:00 - 
+2020-07-26T22:12:46.179087773+03:00 - ==== next token ====
+2020-07-26T22:12:46.179165618+03:00 - rest of line: Some("union\n")
+2020-07-26T22:12:46.179240739+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.179342445+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.179421834+03:00 - source_peeker#starts_with(45, u8); len=59
+2020-07-26T22:12:46.179499034+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.179582708+03:00 - source_peeker#starts_with(45, u32); len=59
+2020-07-26T22:12:46.179664089+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.179742353+03:00 - source_peeker#starts_with(45, i8); len=59
+2020-07-26T22:12:46.179822292+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.179911866+03:00 - source_peeker#starts_with(45, i32); len=59
+2020-07-26T22:12:46.179988868+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.180066435+03:00 - source_peeker#starts_with(45, cst); len=59
+2020-07-26T22:12:46.180145002+03:00 - checking if keyword: var
+2020-07-26T22:12:46.180220876+03:00 - source_peeker#starts_with(45, var); len=59
+2020-07-26T22:12:46.180298490+03:00 - checking if keyword: union
+2020-07-26T22:12:46.180374586+03:00 - source_peeker#starts_with(45, union); len=59
+2020-07-26T22:12:46.180454373+03:00 - found: keyword(union)
+2020-07-26T22:12:46.180544457+03:00 - span: Span { start: 45, end: 50 }, actual source: Some("union")
+2020-07-26T22:12:46.180642399+03:00 - 
+2020-07-26T22:12:46.180714862+03:00 - ==== next token ====
+2020-07-26T22:12:46.180796614+03:00 - rest of line: Some("\n")
+2020-07-26T22:12:46.180874103+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.180987175+03:00 - whitespace detected start=50, end=52
+2020-07-26T22:12:46.181069283+03:00 - found: whitepsace
+2020-07-26T22:12:46.181159427+03:00 - span: Span { start: 50, end: 52 }, actual source: Some("\n\n")
+2020-07-26T22:12:46.181247522+03:00 - 
+2020-07-26T22:12:46.181322275+03:00 - ==== next token ====
+2020-07-26T22:12:46.181404361+03:00 - rest of line: Some("cst var")
+2020-07-26T22:12:46.181485545+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.181593213+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.181674971+03:00 - source_peeker#starts_with(52, u8); len=59
+2020-07-26T22:12:46.181768797+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.181849983+03:00 - source_peeker#starts_with(52, u32); len=59
+2020-07-26T22:12:46.181935575+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.182016423+03:00 - source_peeker#starts_with(52, i8); len=59
+2020-07-26T22:12:46.182098266+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.182178973+03:00 - source_peeker#starts_with(52, i32); len=59
+2020-07-26T22:12:46.182260589+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.182403244+03:00 - source_peeker#starts_with(52, cst); len=59
+2020-07-26T22:12:46.182496232+03:00 - found: keyword(cst)
+2020-07-26T22:12:46.182587119+03:00 - span: Span { start: 52, end: 55 }, actual source: Some("cst")
+2020-07-26T22:12:46.182672596+03:00 - 
+2020-07-26T22:12:46.182746897+03:00 - ==== next token ====
+2020-07-26T22:12:46.182829813+03:00 - rest of line: Some(" var")
+2020-07-26T22:12:46.182909621+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.183007999+03:00 - whitespace detected start=55, end=56
+2020-07-26T22:12:46.183083679+03:00 - found: whitepsace
+2020-07-26T22:12:46.183174717+03:00 - span: Span { start: 55, end: 56 }, actual source: Some(" ")
+2020-07-26T22:12:46.183262907+03:00 - 
+2020-07-26T22:12:46.183328620+03:00 - ==== next token ====
+2020-07-26T22:12:46.183401121+03:00 - rest of line: Some("var")
+2020-07-26T22:12:46.183469910+03:00 - tokenize_whitespace
+2020-07-26T22:12:46.183568661+03:00 - checking if keyword: u8
+2020-07-26T22:12:46.183639111+03:00 - source_peeker#starts_with(56, u8); len=59
+2020-07-26T22:12:46.183710275+03:00 - checking if keyword: u32
+2020-07-26T22:12:46.183781229+03:00 - source_peeker#starts_with(56, u32); len=59
+2020-07-26T22:12:46.183852732+03:00 - checking if keyword: i8
+2020-07-26T22:12:46.183920669+03:00 - source_peeker#starts_with(56, i8); len=59
+2020-07-26T22:12:46.183989407+03:00 - checking if keyword: i32
+2020-07-26T22:12:46.184056893+03:00 - source_peeker#starts_with(56, i32); len=59
+2020-07-26T22:12:46.184125828+03:00 - checking if keyword: cst
+2020-07-26T22:12:46.184193257+03:00 - source_peeker#starts_with(56, cst); len=59
+2020-07-26T22:12:46.184262581+03:00 - checking if keyword: var
+2020-07-26T22:12:46.184331052+03:00 - source_peeker#starts_with(56, var); len=59
+2020-07-26T22:12:46.184403423+03:00 - found: keyword(var)
+2020-07-26T22:12:46.184482006+03:00 - span: Span { start: 56, end: 59 }, actual source: Some("var")
+2020-07-26T22:12:46.184555687+03:00 - 
+2020-07-26T22:12:46.184622543+03:00 - ==== next token ====
+2020-07-26T22:12:46.184690621+03:00 - rest of line: None
+2020-07-26T22:12:46.184756082+03:00 - found: eof
+2020-07-26T22:12:46.184828997+03:00 - span: Span { start: 59, end: 59 }, actual source: Some("")
+2020-07-26T22:12:46.186764759+03:00 - tokens of "resources/code-examples/just-keywords.mypl":
+[
+    Token {
+        kind: Keyword(
+            Unsigned32,
+        ),
+        span: Span {
+            start: 0,
+            end: 3,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 3,
+            end: 5,
+        },
+    },
+    Token {
+        kind: Keyword(
+            Signed8,
+        ),
+        span: Span {
+            start: 5,
+            end: 7,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 7,
+            end: 13,
+        },
+    },
+    Token {
+        kind: Keyword(
+            Unsigned8,
+        ),
+        span: Span {
+            start: 13,
+            end: 15,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 15,
+            end: 16,
+        },
+    },
+    Token {
+        kind: Keyword(
+            Signed32,
+        ),
+        span: Span {
+            start: 16,
+            end: 19,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 19,
+            end: 21,
+        },
+    },
+    Token {
+        kind: Keyword(
+            For,
+        ),
+        span: Span {
+            start: 21,
+            end: 24,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 24,
+            end: 25,
+        },
+    },
+    Token {
+        kind: Keyword(
+            If,
+        ),
+        span: Span {
+            start: 25,
+            end: 27,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 27,
+            end: 32,
+        },
+    },
+    Token {
+        kind: Keyword(
+            Loop,
+        ),
+        span: Span {
+            start: 32,
+            end: 36,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 36,
+            end: 38,
+        },
+    },
+    Token {
+        kind: Keyword(
+            RecordDecleration,
+        ),
+        span: Span {
+            start: 38,
+            end: 44,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 44,
+            end: 45,
+        },
+    },
+    Token {
+        kind: Keyword(
+            UnionDecleration,
+        ),
+        span: Span {
+            start: 45,
+            end: 50,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 50,
+            end: 52,
+        },
+    },
+    Token {
+        kind: Keyword(
+            ConstDecleration,
+        ),
+        span: Span {
+            start: 52,
+            end: 55,
+        },
+    },
+    Token {
+        kind: Whitespace,
+        span: Span {
+            start: 55,
+            end: 56,
+        },
+    },
+    Token {
+        kind: Keyword(
+            VariableDecleration,
+        ),
+        span: Span {
+            start: 56,
+            end: 59,
+        },
+    },
+    Token {
+        kind: Sentinel(
+            EndOfFile,
+        ),
+        span: Span {
+            start: 59,
+            end: 59,
         },
     },
 ]
