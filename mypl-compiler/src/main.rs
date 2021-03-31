@@ -1,18 +1,19 @@
 extern crate log;
 extern crate log4rs;
-extern crate mypl_cli;
 extern crate mypl_lex;
 
 use std::fs;
 use std::path::Path;
 use std::process;
 
+use create::cli;
+
 fn main() {
     log4rs::init_file("resources/log4rs.yaml", Default::default()).unwrap();
     log::info!("welcome to mypl!\n");
 
-    let arguments = mypl_cli::parse();
-    mypl_cli::exec_default_behaviour(&arguments);
+    let arguments = cli::parse();
+    cli::exec_default_behaviour(&arguments);
 
     for input in arguments.inputs.iter() {
         log::debug!("working source file: {}", input);

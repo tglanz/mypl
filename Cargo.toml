@@ -1,6 +1,5 @@
 [workspace]
 members = [
     "mypl-compiler",
-    "mypl-cli",
     "mypl-lex",
 ]

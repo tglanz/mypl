@@ -59,7 +59,7 @@ pub fn parse() -> Arguments {
     arguments
 }
 
-pub fn exec_default_behaviour(args: &Arguments) {
+pub fn exec_default_behavior(args: &Arguments) {
     if args.help {
         println!("{:#}", usage());
     }
