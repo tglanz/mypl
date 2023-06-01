@@ -5,16 +5,27 @@ Color = union {
     Green,
     Blue,
 
-    RGB = record {
+    RGB: record {
         red: u8,
         green: u8,
         blue: u8
     }
 };
 
+color = Color.RGB {
+  red = 128,
+  green = 128,
+  blue = 128,
+};
+
 Point = record {
     x: u32,
     y: u32,
+};
+
+point = Point {
+  x = 3,
+  y = 4,
 };
 
 Vertex = record {
@@ -26,4 +37,13 @@ Vertex = record {
     },
 
     color: Color,
+};
+
+vertex = Vertex {
+  point = point,
+  texture = {
+    u: 12,
+    v: 32,
+  },
+  color = color,
 };

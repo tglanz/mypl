@@ -1,0 +1,49 @@
+2023-06-01T17:07:39.326972+03:00 - staring to tokenize source: 
+// this is a.mypl file
+// and this is the second line of comments.
+// the tokenization process is starting to show it thing
+
+
+
+// post whitepsaces, does it work?
+// lets check
+2023-06-01T17:07:39.327023+03:00 - 
+2023-06-01T17:07:39.327043+03:00 - ==== next token ====
+2023-06-01T17:07:39.327063+03:00 - rest of line: Some("// this is a.mypl file\n")
+2023-06-01T17:07:39.327086+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327163+03:00 - comment detected start=0, end=23
+2023-06-01T17:07:39.327186+03:00 - found: comment
+2023-06-01T17:07:39.327203+03:00 - span: Span { start: 0, end: 23 }, actual source: Some("// this is a.mypl file\n")
+2023-06-01T17:07:39.327221+03:00 - 
+2023-06-01T17:07:39.327238+03:00 - ==== next token ====
+2023-06-01T17:07:39.327254+03:00 - rest of line: Some("// and this is the second line of comments.\n")
+2023-06-01T17:07:39.327272+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327301+03:00 - comment detected start=23, end=67
+2023-06-01T17:07:39.327320+03:00 - found: comment
+2023-06-01T17:07:39.327338+03:00 - span: Span { start: 23, end: 67 }, actual source: Some("// and this is the second line of comments.\n")
+2023-06-01T17:07:39.327359+03:00 - 
+2023-06-01T17:07:39.327375+03:00 - ==== next token ====
+2023-06-01T17:07:39.327392+03:00 - rest of line: Some("// the tokenization process is starting to show it thing\n")
+2023-06-01T17:07:39.327409+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327438+03:00 - comment detected start=67, end=127
+2023-06-01T17:07:39.327461+03:00 - found: comment
+2023-06-01T17:07:39.327484+03:00 - span: Span { start: 67, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\n\n\n\n")
+2023-06-01T17:07:39.327508+03:00 - 
+2023-06-01T17:07:39.327524+03:00 - ==== next token ====
+2023-06-01T17:07:39.327540+03:00 - rest of line: Some("// post whitepsaces, does it work?\n")
+2023-06-01T17:07:39.327557+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327581+03:00 - comment detected start=127, end=162
+2023-06-01T17:07:39.327600+03:00 - found: comment
+2023-06-01T17:07:39.327616+03:00 - span: Span { start: 127, end: 162 }, actual source: Some("// post whitepsaces, does it work?\n")
+2023-06-01T17:07:39.327633+03:00 - 
+2023-06-01T17:07:39.327649+03:00 - ==== next token ====
+2023-06-01T17:07:39.327665+03:00 - rest of line: Some("// lets check")
+2023-06-01T17:07:39.327683+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327704+03:00 - comment detected start=162, end=175
+2023-06-01T17:07:39.327721+03:00 - found: comment
+2023-06-01T17:07:39.327738+03:00 - span: Span { start: 162, end: 175 }, actual source: Some("// lets check")
+2023-06-01T17:07:39.327756+03:00 - 
+2023-06-01T17:07:39.327772+03:00 - ==== next token ====
+2023-06-01T17:07:39.327788+03:00 - rest of line: None
+2023-06-01T17:07:39.327804+03:00 - found: eof
+2023-06-01T17:07:39.327820+03:00 - span: Span { start: 175, end: 175 }, actual source: Some("")

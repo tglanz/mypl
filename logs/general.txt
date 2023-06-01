@@ -1,2 +1,108 @@
-2021-03-31T22:39:35.329523771+03:00 - welcome to mypl!
+2023-06-01T17:07:39.325578+03:00 - welcome to mypl!
 
+2023-06-01T17:07:39.327006+03:00 - staring to tokenize source: 
+// this is a.mypl file
+// and this is the second line of comments.
+// the tokenization process is starting to show it thing
+
+
+
+// post whitepsaces, does it work?
+// lets check
+2023-06-01T17:07:39.327033+03:00 - 
+2023-06-01T17:07:39.327053+03:00 - ==== next token ====
+2023-06-01T17:07:39.327074+03:00 - rest of line: Some("// this is a.mypl file\n")
+2023-06-01T17:07:39.327098+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327175+03:00 - comment detected start=0, end=23
+2023-06-01T17:07:39.327194+03:00 - found: comment
+2023-06-01T17:07:39.327212+03:00 - span: Span { start: 0, end: 23 }, actual source: Some("// this is a.mypl file\n")
+2023-06-01T17:07:39.327229+03:00 - 
+2023-06-01T17:07:39.327246+03:00 - ==== next token ====
+2023-06-01T17:07:39.327263+03:00 - rest of line: Some("// and this is the second line of comments.\n")
+2023-06-01T17:07:39.327280+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327309+03:00 - comment detected start=23, end=67
+2023-06-01T17:07:39.327329+03:00 - found: comment
+2023-06-01T17:07:39.327350+03:00 - span: Span { start: 23, end: 67 }, actual source: Some("// and this is the second line of comments.\n")
+2023-06-01T17:07:39.327367+03:00 - 
+2023-06-01T17:07:39.327383+03:00 - ==== next token ====
+2023-06-01T17:07:39.327400+03:00 - rest of line: Some("// the tokenization process is starting to show it thing\n")
+2023-06-01T17:07:39.327417+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327449+03:00 - comment detected start=67, end=127
+2023-06-01T17:07:39.327472+03:00 - found: comment
+2023-06-01T17:07:39.327497+03:00 - span: Span { start: 67, end: 127 }, actual source: Some("// the tokenization process is starting to show it thing\n\n\n\n")
+2023-06-01T17:07:39.327516+03:00 - 
+2023-06-01T17:07:39.327532+03:00 - ==== next token ====
+2023-06-01T17:07:39.327549+03:00 - rest of line: Some("// post whitepsaces, does it work?\n")
+2023-06-01T17:07:39.327565+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327590+03:00 - comment detected start=127, end=162
+2023-06-01T17:07:39.327607+03:00 - found: comment
+2023-06-01T17:07:39.327624+03:00 - span: Span { start: 127, end: 162 }, actual source: Some("// post whitepsaces, does it work?\n")
+2023-06-01T17:07:39.327641+03:00 - 
+2023-06-01T17:07:39.327657+03:00 - ==== next token ====
+2023-06-01T17:07:39.327674+03:00 - rest of line: Some("// lets check")
+2023-06-01T17:07:39.327691+03:00 - tokenize_whitespace
+2023-06-01T17:07:39.327712+03:00 - comment detected start=162, end=175
+2023-06-01T17:07:39.327729+03:00 - found: comment
+2023-06-01T17:07:39.327747+03:00 - span: Span { start: 162, end: 175 }, actual source: Some("// lets check")
+2023-06-01T17:07:39.327764+03:00 - 
+2023-06-01T17:07:39.327779+03:00 - ==== next token ====
+2023-06-01T17:07:39.327795+03:00 - rest of line: None
+2023-06-01T17:07:39.327811+03:00 - found: eof
+2023-06-01T17:07:39.327829+03:00 - span: Span { start: 175, end: 175 }, actual source: Some("")
+2023-06-01T17:07:39.328076+03:00 - tokens of "resources/code-examples/just-comments.mypl":
+[
+    Token {
+        kind: Comment(
+            "this is a.mypl file",
+        ),
+        span: Span {
+            start: 0,
+            end: 23,
+        },
+    },
+    Token {
+        kind: Comment(
+            "and this is the second line of comments.",
+        ),
+        span: Span {
+            start: 23,
+            end: 67,
+        },
+    },
+    Token {
+        kind: Comment(
+            "the tokenization process is starting to show it thing",
+        ),
+        span: Span {
+            start: 67,
+            end: 127,
+        },
+    },
+    Token {
+        kind: Comment(
+            "post whitepsaces, does it work?",
+        ),
+        span: Span {
+            start: 127,
+            end: 162,
+        },
+    },
+    Token {
+        kind: Comment(
+            "lets check",
+        ),
+        span: Span {
+            start: 162,
+            end: 175,
+        },
+    },
+    Token {
+        kind: Sentinel(
+            EndOfFile,
+        ),
+        span: Span {
+            start: 175,
+            end: 175,
+        },
+    },
+]

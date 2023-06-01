@@ -1,9 +1,6 @@
 use std::borrow::Cow;
 
-pub use crate::{
-    prelude::*,
-    keywords::Keyword,
-};
+pub use crate::{keywords::Keyword, prelude::*};
 
 #[derive(Eq, PartialEq, Debug)]
 pub enum BracketDirection {
@@ -35,7 +32,6 @@ pub enum TokenKind {
 }
 
 impl TokenKind {
-
     pub fn is_invalid(&self) -> bool {
         match self {
             TokenKind::Invalid => true,
@@ -45,13 +41,13 @@ impl TokenKind {
 
     pub fn short_name<'a>(&'a self) -> Cow<'static, str> {
         use TokenKind::*;
+
         match self {
             Comment(_) => Cow::Borrowed("comment"),
             Whitespace => Cow::Borrowed("whitepsace"),
             Sentinel(SentinelType::EndOfFile) => Cow::Borrowed("eof"),
             Bracket(_, _) => Cow::Borrowed("bracket"),
-            Keyword(keyword) => 
-                Cow::Owned(format!("keyword({})", keyword.to_code())),
+            Keyword(keyword) => Cow::Owned(format!("keyword({})", keyword.to_code())),
             Invalid => Cow::Borrowed("invalid"),
         }
     }
