@@ -29,7 +29,7 @@ impl Keyword {
             Unsigned32 => "u32",
             Signed8 => "i8",
             Signed32 => "i32",    
-            ConstDecleration => "cst",
+            ConstDecleration => "const",
             VariableDecleration => "var",
             UnionDecleration => "union",
             RecordDecleration => "record",

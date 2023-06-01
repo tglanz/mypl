@@ -1,5 +1,5 @@
 [package]
-name = "mypl-lex"
+name = "mypl-lex-old"
 version = "0.1.0"
 authors = ["tglanz"]
 edition = "2018"

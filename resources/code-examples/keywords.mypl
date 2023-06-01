@@ -4,8 +4,6 @@ u32  i8
 
 for if
 
-   loop
-
 record union
 
 cst var

@@ -1,5 +1,9 @@
 [workspace]
 members = [
-    "mypl-compiler",
-    "mypl-lex",
+    "mypl_cli",
+    "mypl_lex",
 ]
+
+[workspace.dependencies]
+anyhow = "1.0.71"
+regex = "1.3.7"
