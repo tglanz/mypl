@@ -82,14 +82,10 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
     Ok(vec![
         // Eof
         SimpleTokenizationRule::boxed(|source| {
-            if !source.is_eof() {
-                None
-            } else {
-                Some(Token {
-                    kind: TokenKind::Eof,
-                    span: source.make_span(1),
-                })
-            }
+            source.is_eof().then(|| Token {
+                kind: TokenKind::Eof,
+                span: source.make_span(1),
+            })
         }),
         // Comments
         RegexTokenizationRule::boxed("^//.*", |capture| {
