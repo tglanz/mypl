@@ -108,7 +108,6 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {Ok(vec
     ExactTokenizationRule::boxed("f32", TokenKind::Keyword(Keyword::F32)),
     ExactTokenizationRule::boxed("f16", TokenKind::Keyword(Keyword::F16)),
 
-
     // Double Character
     ExactTokenizationRule::boxed("==", TokenKind::EqEq),
     ExactTokenizationRule::boxed("<=", TokenKind::Le),
@@ -187,7 +186,7 @@ impl<'a> SourceReader<'a> {
 
 impl<'a> AsRef<str> for SourceReader<'a> {
     fn as_ref(&self) -> &str {
-        return &self.source[self.position..]
+        &self.source[self.position..]
     }
 }
 

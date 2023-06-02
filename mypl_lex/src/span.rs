@@ -10,7 +10,7 @@ pub struct Span {
 
 impl From<(usize, usize)> for Span {
     fn from((start, end): (usize, usize)) -> Self {
-        return Self { start, end }
+        Self { start, end }
     }
 }
 
