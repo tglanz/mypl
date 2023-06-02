@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use crate::span::Span;
-use crate::token::{BinOp, Delimiter, Keyword, Token, TokenKind};
+use crate::token::{BinOp, Keyword, Token, TokenKind, DelimDirection, DelimType};
 
 use regex::Regex;
 
@@ -148,12 +148,12 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed("^", TokenKind::BinOp(BinOp::Caret)),
         ExactTokenizationRule::boxed("&", TokenKind::BinOp(BinOp::And)),
         ExactTokenizationRule::boxed("|", TokenKind::BinOp(BinOp::Or)),
-        ExactTokenizationRule::boxed("(", TokenKind::OpenDelim(Delimiter::Paren)),
-        ExactTokenizationRule::boxed("{", TokenKind::OpenDelim(Delimiter::Brace)),
-        ExactTokenizationRule::boxed("[", TokenKind::OpenDelim(Delimiter::Brack)),
-        ExactTokenizationRule::boxed(")", TokenKind::CloseDelim(Delimiter::Paren)),
-        ExactTokenizationRule::boxed("}", TokenKind::CloseDelim(Delimiter::Brace)),
-        ExactTokenizationRule::boxed("]", TokenKind::CloseDelim(Delimiter::Brack)),
+        ExactTokenizationRule::boxed("(", TokenKind::Delim(DelimDirection::Open, DelimType::Paren)),
+        ExactTokenizationRule::boxed("{", TokenKind::Delim(DelimDirection::Open, DelimType::Brace)),
+        ExactTokenizationRule::boxed("[", TokenKind::Delim(DelimDirection::Open, DelimType::Brack)),
+        ExactTokenizationRule::boxed(")", TokenKind::Delim(DelimDirection::Close, DelimType::Paren)),
+        ExactTokenizationRule::boxed("}", TokenKind::Delim(DelimDirection::Close, DelimType::Brace)),
+        ExactTokenizationRule::boxed("]", TokenKind::Delim(DelimDirection::Close, DelimType::Brack)),
     ])
 }
 

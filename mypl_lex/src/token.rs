@@ -32,12 +32,15 @@ pub enum Literal {
 }
 
 #[derive(Clone, PartialEq, Debug)]
-pub enum Delimiter {
-    // ()
+pub enum DelimDirection {
+    Open,
+    Close,
+}
+
+#[derive(Clone, PartialEq, Debug)]
+pub enum DelimType {
     Paren,
-    // {}
     Brace,
-    // []
     Brack,
 }
 
@@ -110,8 +113,7 @@ pub enum TokenKind {
     BinOp(BinOp),
     BinOpEq(BinOp),
 
-    OpenDelim(Delimiter),
-    CloseDelim(Delimiter),
+    Delim(DelimDirection, DelimType),
 
     Literal(Literal),
 
