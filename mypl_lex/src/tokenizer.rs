@@ -1,40 +1,161 @@
+use anyhow::Result;
+
 use crate::token::{Token, TokenKind, Keyword, BinOp, Delimiter};
 use crate::span::Span;
 
 use regex::Regex;
 
-// A idea I had is to have a trait of a "Rule".
-// Such rules act like Regexes - they take a string and return Option<usize>.
-// This will enable us to create functions instead of Regexes if needed.
-// I had trouble of creating an efficient abstraction for it due to need of boxing and dynamic
-// dispatch.
-//
-// trait Rule {
-//     fn try_match<'a>(&self, testee: &'a str) -> Option<usize>;
-// }
-// 
-// impl Rule for Regex {
-//     fn try_match<'a>(&self, testee: &'a str) -> Option<usize> {
-//         self.captures(testee)
-//             .map(|captures| captures.len())
-//     }
-// }
+// Tokenization Rules
 
-struct Patterns {
-    whitespace: Regex,
-    comment: Regex,
-    keyword: Regex,
+trait TokenizationRule {
+    fn tokenize(&self, source: &SourceReader) -> Option<Token>;
 }
 
-impl Default for Patterns {
-    fn default() -> Self {
-        Self {
-            whitespace: Regex::new(r"^[\t\n\r ]+").unwrap(),
-            comment: Regex::new("^//.*").unwrap(),
-            keyword: Regex::new("^(cst|var|record|union|impl|trait|mod|if|else|for|in|match|return|u32|u16|u8|i32|i16|i8|f32|f6)").unwrap(),
+struct SimpleTokenizationRule {
+    create: fn(source: &SourceReader) -> Option<Token>,
+}
+
+impl SimpleTokenizationRule {
+    fn boxed(create: fn(source: &SourceReader) -> Option<Token>) -> Box<Self> {
+        Box::new(Self{ create })
+    }
+}
+
+struct ExactTokenizationRule {
+    exact: String,
+    kind: TokenKind,
+}
+
+impl ExactTokenizationRule {
+    fn boxed(exact: impl AsRef<str>, kind: TokenKind) -> Box<Self> {
+        Box::new(Self { exact: exact.as_ref().into(), kind })
+    }
+}
+
+impl TokenizationRule for ExactTokenizationRule {
+    fn tokenize(&self, source: &SourceReader) -> Option<Token> {
+        if !source.as_ref().starts_with(&self.exact) {
+            None
+        } else {
+            Some(Token {
+                kind: self.kind.clone(),
+                span: source.make_span(self.exact.len())
+            })
         }
     }
 }
+
+impl TokenizationRule for SimpleTokenizationRule {
+    fn tokenize(&self, source: &SourceReader) -> Option<Token> {
+        (self.create)(source)
+    }
+}
+
+struct RegexTokenizationRule {
+    regex: Regex,
+    create: fn(regex::Match) -> TokenKind,
+}
+
+impl RegexTokenizationRule {
+    fn boxed(pattern: &str, create: fn(regex::Match) -> TokenKind) -> Result<Box<Self>> {
+        let regex = Regex::new(pattern)?;
+        Ok(Box::new(Self { regex, create }))
+    }
+}
+
+impl TokenizationRule for RegexTokenizationRule {
+    fn tokenize(&self, source: &SourceReader) -> Option<Token> {
+        self.regex.captures(source.as_ref())
+            .and_then(|captures| captures.get(0))
+            .map(|capture| Token {
+                kind: (self.create)(capture),
+                span: Span::new(source.get_position(), source.get_position() + capture.len()),
+            })
+    }
+}
+
+fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {Ok(vec![
+    // Eof
+    SimpleTokenizationRule::boxed(|source| if !source.is_eof() { None } else { Some(Token {
+        kind: TokenKind::Eof,
+        span: source.make_span(1), 
+    })}),
+
+    // Comments
+    RegexTokenizationRule::boxed("^//.*",
+        |capture| TokenKind::Comment(capture.as_str().into()))?,
+
+    // Keywords
+    ExactTokenizationRule::boxed("cst", TokenKind::Keyword(Keyword::Const)),
+    ExactTokenizationRule::boxed("var", TokenKind::Keyword(Keyword::Var)),
+    ExactTokenizationRule::boxed("record", TokenKind::Keyword(Keyword::Record)),
+    ExactTokenizationRule::boxed("union", TokenKind::Keyword(Keyword::Union)),
+    ExactTokenizationRule::boxed("impl", TokenKind::Keyword(Keyword::Impl)),
+    ExactTokenizationRule::boxed("trait", TokenKind::Keyword(Keyword::Trait)),
+    ExactTokenizationRule::boxed("mod", TokenKind::Keyword(Keyword::Mod)),
+    ExactTokenizationRule::boxed("if", TokenKind::Keyword(Keyword::If)),
+    ExactTokenizationRule::boxed("else", TokenKind::Keyword(Keyword::Else)),
+    ExactTokenizationRule::boxed("for", TokenKind::Keyword(Keyword::For)),
+    ExactTokenizationRule::boxed("in", TokenKind::Keyword(Keyword::In)),
+    ExactTokenizationRule::boxed("match", TokenKind::Keyword(Keyword::Match)),
+    ExactTokenizationRule::boxed("return", TokenKind::Keyword(Keyword::Return)),
+    ExactTokenizationRule::boxed("u32", TokenKind::Keyword(Keyword::U32)),
+    ExactTokenizationRule::boxed("u16", TokenKind::Keyword(Keyword::U16)),
+    ExactTokenizationRule::boxed("u8", TokenKind::Keyword(Keyword::U8)),
+    ExactTokenizationRule::boxed("i32", TokenKind::Keyword(Keyword::I32)),
+    ExactTokenizationRule::boxed("i16", TokenKind::Keyword(Keyword::I16)),
+    ExactTokenizationRule::boxed("i8", TokenKind::Keyword(Keyword::I8)),
+    ExactTokenizationRule::boxed("f32", TokenKind::Keyword(Keyword::F32)),
+    ExactTokenizationRule::boxed("f16", TokenKind::Keyword(Keyword::F16)),
+
+
+    // Double Character
+    ExactTokenizationRule::boxed("==", TokenKind::EqEq),
+    ExactTokenizationRule::boxed("<=", TokenKind::Le),
+    ExactTokenizationRule::boxed(">=", TokenKind::Ge),
+    ExactTokenizationRule::boxed("!=", TokenKind::Ne),
+    ExactTokenizationRule::boxed("..", TokenKind::DotDot),
+    ExactTokenizationRule::boxed("&&", TokenKind::AndAnd),
+    ExactTokenizationRule::boxed("||", TokenKind::OrOr),
+    ExactTokenizationRule::boxed(">>", TokenKind::BinOp(BinOp::Shr)),
+    ExactTokenizationRule::boxed("<<", TokenKind::BinOp(BinOp::Shl)),
+    ExactTokenizationRule::boxed("+=", TokenKind::BinOpEq(BinOp::Plus)),
+    ExactTokenizationRule::boxed("-=", TokenKind::BinOpEq(BinOp::Minus)),
+    ExactTokenizationRule::boxed("*=", TokenKind::BinOpEq(BinOp::Star)),
+    ExactTokenizationRule::boxed("/=", TokenKind::BinOpEq(BinOp::Slash)),
+    ExactTokenizationRule::boxed("%=", TokenKind::BinOpEq(BinOp::Percent)),
+    ExactTokenizationRule::boxed("^=", TokenKind::BinOpEq(BinOp::Caret)),
+    ExactTokenizationRule::boxed("&=", TokenKind::BinOpEq(BinOp::And)),
+    ExactTokenizationRule::boxed("|=", TokenKind::BinOpEq(BinOp::Or)),
+
+    // Single Characters
+    ExactTokenizationRule::boxed("=", TokenKind::Eq),
+    ExactTokenizationRule::boxed("<", TokenKind::Lt),
+    ExactTokenizationRule::boxed(">", TokenKind::Gt),
+    ExactTokenizationRule::boxed("!", TokenKind::Not),
+    ExactTokenizationRule::boxed(".", TokenKind::Dot),
+    ExactTokenizationRule::boxed(",", TokenKind::Comma),
+    ExactTokenizationRule::boxed(":", TokenKind::Colon),
+    ExactTokenizationRule::boxed(";", TokenKind::SemiColon),
+    ExactTokenizationRule::boxed("+", TokenKind::BinOp(BinOp::Plus)),
+    ExactTokenizationRule::boxed("-", TokenKind::BinOp(BinOp::Minus)),
+    ExactTokenizationRule::boxed("*", TokenKind::BinOp(BinOp::Star)),
+    ExactTokenizationRule::boxed("/", TokenKind::BinOp(BinOp::Slash)),
+    ExactTokenizationRule::boxed("%", TokenKind::BinOp(BinOp::Percent)),
+    ExactTokenizationRule::boxed("^", TokenKind::BinOp(BinOp::Caret)),
+    ExactTokenizationRule::boxed("&", TokenKind::BinOp(BinOp::And)),
+    ExactTokenizationRule::boxed("|", TokenKind::BinOp(BinOp::Or)),
+    ExactTokenizationRule::boxed("(", TokenKind::OpenDelim(Delimiter::Paren)),
+    ExactTokenizationRule::boxed("{", TokenKind::OpenDelim(Delimiter::Brace)),
+    ExactTokenizationRule::boxed("[", TokenKind::OpenDelim(Delimiter::Brack)),
+    ExactTokenizationRule::boxed(")", TokenKind::CloseDelim(Delimiter::Paren)),
+    ExactTokenizationRule::boxed("}", TokenKind::CloseDelim(Delimiter::Brace)),
+    ExactTokenizationRule::boxed("]", TokenKind::CloseDelim(Delimiter::Brack)),
+
+])}
+
+
+// SourceReader
 
 pub struct SourceReader<'a> {
     position: usize,
@@ -55,16 +176,12 @@ impl<'a> SourceReader<'a> {
         self.position 
     }
 
+    pub fn make_span(&self, size: usize) -> Span {
+        Span::new(self.position, self.position + size)
+    }
+
     pub fn advance(&mut self, size: usize) {
         self.position += size
-    }
-
-    fn substring(&self, size: usize) -> &'a str {
-        &self.source[self.position..self.position+size]
-    }
-
-    fn into_substring(&self, size: usize) -> String {
-        self.substring(size).into()
     }
 }
 
@@ -85,7 +202,8 @@ impl<'a> From<&'a str> for SourceReader<'a> {
 
 pub struct Tokenizer<'a> {
     source: SourceReader<'a>,
-    patterns: Patterns,
+    rules: Vec<Box<dyn TokenizationRule>>,
+    whitespace_regex: Regex,
 }
 
 impl<'a> Tokenizer<'a> {
@@ -93,12 +211,13 @@ impl<'a> Tokenizer<'a> {
     pub fn new(source: &'a str) -> Self {
         Self {
             source: source.into(),
-            patterns: Default::default(),
+
+            rules: create_tokenization_rules()
+                .expect("failed creating rules - happens only cause of code issues, fix it"),
+
+            // This won't panic, we know it compiles.
+            whitespace_regex: Regex::new(r"^[\t\n\r ]+").unwrap(),
         }
-    }
- 
-    fn make_span(&self, size: usize) -> Span {
-        Span::new(self.source.get_position(), self.source.get_position() + size)
     }
 
     pub fn next_token(&mut self) -> Option<Token> {
@@ -108,136 +227,21 @@ impl<'a> Tokenizer<'a> {
         }
 
         self.advance_whitespace();
-
-        // chain attempts of tokenizations.
-        // the first tokenization success breaks the chain.
-        None
-            .or_else(|| self.tokenize_eof())
-            .or_else(|| self.tokenize_comment())
-            .or_else(|| self.tokenize_keyword())
-            .or_else(|| self.tokenize_double_char())
-            .or_else(|| self.tokenize_single_char())
-            .or_else(|| Some(Token {
-                kind: TokenKind::Unknown(self.source.into_substring(1)),
-                span: self.make_span(1),
-            }))
-            .map(|token| {
+        
+        for rule in &self.rules {
+            if let Some(token) = rule.tokenize(&self.source) {
                 self.source.advance(token.span.get_size());
-                token
-            })
+                return Some(token);
+            }
+        }
+
+        None
     }
 
 
     fn advance_whitespace(&mut self) {
-        if let Some(c) = self.patterns.whitespace.captures(self.source.as_ref()) {
+        if let Some(c) = self.whitespace_regex.captures(self.source.as_ref()) {
             self.source.advance(c.get(0).unwrap().len());
         }
-    }
-
-    fn tokenize_eof(&mut self) -> Option<Token> {
-        if !self.source.is_eof() { 
-            None
-        } else {
-            Some(Token {
-                kind: TokenKind::Eof,
-                span: self.make_span(1),
-            })
-        }
-    }
-
-    fn tokenize_comment(&mut self) -> Option<Token> {
-        self.patterns.comment
-            .captures(self.source.as_ref())
-            .map(|c| Token {
-                kind: TokenKind::Comment(self.source.into_substring(c.get(0).unwrap().len())),
-                span: self.make_span(c.get(0).unwrap().len()),
-            })
-    }
-
-    fn tokenize_single_char(&mut self) -> Option<Token> {
-
-        let kind = match self.source.substring(1) {
-            "=" => TokenKind::Eq,
-            "<" => TokenKind::Lt,
-            ">" => TokenKind::Gt,
-            "!" => TokenKind::Not,
-            "." => TokenKind::Dot,
-            "," => TokenKind::Comma,
-            ":" => TokenKind::Colon,
-            ";" => TokenKind::SemiColon,
-            "+" => TokenKind::BinOp(BinOp::Plus),
-            "-" => TokenKind::BinOp(BinOp::Minus),
-            "*" => TokenKind::BinOp(BinOp::Star),
-            "/" => TokenKind::BinOp(BinOp::Slash),
-            "%" => TokenKind::BinOp(BinOp::Percent),
-            "^" => TokenKind::BinOp(BinOp::Caret),
-            "&" => TokenKind::BinOp(BinOp::And),
-            "|" => TokenKind::BinOp(BinOp::Or),
-            "(" => TokenKind::OpenDelim(Delimiter::Paren),
-            "{" => TokenKind::OpenDelim(Delimiter::Brace),
-            "[" => TokenKind::OpenDelim(Delimiter::Brack),
-            ")" => TokenKind::CloseDelim(Delimiter::Paren),
-            "}" => TokenKind::CloseDelim(Delimiter::Brace),
-            "]" => TokenKind::CloseDelim(Delimiter::Brack),
-
-            _ => TokenKind::Undefined,
-        };
-
-        if kind == TokenKind::Undefined {
-            return None;
-        }
-
-        let span = self.make_span(1);
-        Some(Token { kind, span })
-    }
-
-
-    fn tokenize_double_char(&mut self) -> Option<Token> {
-
-        let kind = match self.source.substring(2) {
-            "==" => TokenKind::EqEq,
-            "<=" => TokenKind::Le,
-            ">=" => TokenKind::Ge,
-            "!=" => TokenKind::Ne,
-            ".." => TokenKind::DotDot,
-            "&&" => TokenKind::AndAnd,
-            "||" => TokenKind::OrOr,
-            ">>" => TokenKind::BinOp(BinOp::Shr),
-            "<<" => TokenKind::BinOp(BinOp::Shl),
-
-            // TODO: compose BinOpEq
-            "+=" => TokenKind::BinOpEq(BinOp::Plus),
-            "-=" => TokenKind::BinOpEq(BinOp::Minus),
-            "*=" => TokenKind::BinOpEq(BinOp::Star),
-            "/=" => TokenKind::BinOpEq(BinOp::Slash),
-            "%=" => TokenKind::BinOpEq(BinOp::Percent),
-            "^=" => TokenKind::BinOpEq(BinOp::Caret),
-            "&=" => TokenKind::BinOpEq(BinOp::And),
-            "|=" => TokenKind::BinOpEq(BinOp::Or),
-
-            _ => TokenKind::Undefined,
-        };
-
-        if kind == TokenKind::Undefined {
-            return None;
-        }
-
-        let span = self.make_span(2);
-        Some(Token { kind, span })
-    }
-
-    fn tokenize_keyword(&mut self) -> Option<Token> {
-        self.patterns.keyword
-            .captures(self.source.as_ref())
-            .map(|c| {
-                let len = c.get(0).unwrap().len();
-                let code = self.source.substring(len);
-                Token {
-                    // If this unwrap panics, it doesn't mean syntax error.
-                    // It means we set up the tokenization wrong.
-                    kind: TokenKind::Keyword(Keyword::from_code(code).expect(code)),
-                    span: self.make_span(len),
-                }
-            })
     }
 }

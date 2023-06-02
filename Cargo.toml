@@ -2,6 +2,11 @@
 members = [
     "mypl_cli",
     "mypl_lex",
+    "mypl_playground",
+]
+
+default-members = [
+  "mypl_cli"
 ]
 
 [workspace.dependencies]
