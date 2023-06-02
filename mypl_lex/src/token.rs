@@ -32,7 +32,7 @@ pub enum Literal {
 }
 
 #[derive(Clone, PartialEq, Debug)]
-pub enum DelimDirection {
+pub enum DelimDir {
     Open,
     Close,
 }
@@ -113,7 +113,7 @@ pub enum TokenKind {
     BinOp(BinOp),
     BinOpEq(BinOp),
 
-    Delim(DelimDirection, DelimType),
+    Delim(DelimDir, DelimType),
 
     Literal(Literal),
 
