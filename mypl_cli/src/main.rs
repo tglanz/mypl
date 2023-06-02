@@ -1,13 +1,13 @@
 extern crate mypl_lex;
 
-extern crate clap;
 extern crate anyhow;
+extern crate clap;
 
 use mypl_lex::prelude::*;
 
-use std::path::Path;
 use anyhow::Result;
 use clap::Parser;
+use std::path::Path;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -28,7 +28,6 @@ fn main() -> Result<()> {
         while let Some(token) = tokenizer.next_token() {
             println!("\ttoken: {:#?}", token);
         }
-
     }
 
     println!("done");
@@ -36,8 +35,6 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-
 fn read_file(path: impl AsRef<Path>) -> Result<String> {
-    std::fs::read_to_string(path.as_ref())
-        .map_err(anyhow::Error::from)
+    std::fs::read_to_string(path.as_ref()).map_err(anyhow::Error::from)
 }

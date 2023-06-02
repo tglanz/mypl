@@ -12,8 +12,7 @@ trait FirstMatch {
 
 impl FirstMatch for Regex {
     fn first_match<'a>(&self, content: &'a str) -> Option<regex::Match<'a>> {
-        self.captures(content)
-            .and_then(|captures| captures.get(0))
+        self.captures(content).and_then(|captures| captures.get(0))
     }
 }
 
@@ -37,7 +36,6 @@ struct Token {
     kind: TokenKind,
 }
 
-
 trait TokenizationRule {
     fn tokenize(&self, content: &str) -> Option<TokenKind>;
 }
@@ -46,7 +44,8 @@ struct TokenizeComment;
 
 impl TokenizationRule for TokenizeComment {
     fn tokenize(&self, content: &str) -> Option<TokenKind> {
-        Regex::new("^//.*").unwrap()
+        Regex::new("^//.*")
+            .unwrap()
             .first_match(content)
             .map(|m| TokenKind::Comment(m.as_str().into()))
     }
@@ -59,7 +58,8 @@ struct RegexTokenizationSettings {
 
 impl TokenizationRule for RegexTokenizationSettings {
     fn tokenize(&self, content: &str) -> Option<TokenKind> {
-        self.regex.captures(content)
+        self.regex
+            .captures(content)
             .and_then(|captures| captures.get(0))
             .and_then(|capture| (self.create)(capture))
     }
@@ -68,14 +68,11 @@ impl TokenizationRule for RegexTokenizationSettings {
 fn main() -> Result<()> {
     let comment = "// some comment";
     // let comment_token = TokenizeComment::tokenize(comment);
-    
 
-    let rules: Vec<Box<dyn TokenizationRule>> = vec![
-        Box::new(RegexTokenizationSettings {
-            regex: Regex::new("^//.*").unwrap(),
-            create: |capture: regex::Match| Some(TokenKind::Comment(capture.as_str().into())) ,
-        }),
-    ];
+    let rules: Vec<Box<dyn TokenizationRule>> = vec![Box::new(RegexTokenizationSettings {
+        regex: Regex::new("^//.*").unwrap(),
+        create: |capture: regex::Match| Some(TokenKind::Comment(capture.as_str().into())),
+    })];
 
     for rule in rules {
         if let Some(token) = rule.tokenize(comment) {

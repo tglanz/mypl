@@ -1,4 +1,3 @@
-
 #[derive(Clone, PartialEq, Debug)]
 pub struct Span {
     // Inclusive
