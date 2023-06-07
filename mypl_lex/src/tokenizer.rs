@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use crate::span::Span;
-use crate::token::{BinOp, Keyword, Token, TokenKind, DelimDir, DelimType};
+use crate::token::{Keyword, Token, TokenKind, DelimDir, DelimType};
 
 use regex::Regex;
 
@@ -121,16 +121,14 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed("..", TokenKind::DotDot),
         ExactTokenizationRule::boxed("&&", TokenKind::AndAnd),
         ExactTokenizationRule::boxed("||", TokenKind::OrOr),
-        ExactTokenizationRule::boxed(">>", TokenKind::BinOp(BinOp::Shr)),
-        ExactTokenizationRule::boxed("<<", TokenKind::BinOp(BinOp::Shl)),
-        ExactTokenizationRule::boxed("+=", TokenKind::BinOpEq(BinOp::Plus)),
-        ExactTokenizationRule::boxed("-=", TokenKind::BinOpEq(BinOp::Minus)),
-        ExactTokenizationRule::boxed("*=", TokenKind::BinOpEq(BinOp::Star)),
-        ExactTokenizationRule::boxed("/=", TokenKind::BinOpEq(BinOp::Slash)),
-        ExactTokenizationRule::boxed("%=", TokenKind::BinOpEq(BinOp::Percent)),
-        ExactTokenizationRule::boxed("^=", TokenKind::BinOpEq(BinOp::Caret)),
-        ExactTokenizationRule::boxed("&=", TokenKind::BinOpEq(BinOp::And)),
-        ExactTokenizationRule::boxed("|=", TokenKind::BinOpEq(BinOp::Or)),
+        ExactTokenizationRule::boxed(">>", TokenKind::GtGt),
+        ExactTokenizationRule::boxed("<<", TokenKind::LtLt),
+        ExactTokenizationRule::boxed("+=", TokenKind::PlusEq),
+        ExactTokenizationRule::boxed("-=", TokenKind::MinusEq),
+        ExactTokenizationRule::boxed("*=", TokenKind::StarEq),
+        ExactTokenizationRule::boxed("/=", TokenKind::SlashEq),
+        ExactTokenizationRule::boxed("&=", TokenKind::AndEq),
+        ExactTokenizationRule::boxed("|=", TokenKind::OrEq),
         // Single Characters
         ExactTokenizationRule::boxed("=", TokenKind::Eq),
         ExactTokenizationRule::boxed("<", TokenKind::Lt),
@@ -140,20 +138,25 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed(",", TokenKind::Comma),
         ExactTokenizationRule::boxed(":", TokenKind::Colon),
         ExactTokenizationRule::boxed(";", TokenKind::SemiColon),
-        ExactTokenizationRule::boxed("+", TokenKind::BinOp(BinOp::Plus)),
-        ExactTokenizationRule::boxed("-", TokenKind::BinOp(BinOp::Minus)),
-        ExactTokenizationRule::boxed("*", TokenKind::BinOp(BinOp::Star)),
-        ExactTokenizationRule::boxed("/", TokenKind::BinOp(BinOp::Slash)),
-        ExactTokenizationRule::boxed("%", TokenKind::BinOp(BinOp::Percent)),
-        ExactTokenizationRule::boxed("^", TokenKind::BinOp(BinOp::Caret)),
-        ExactTokenizationRule::boxed("&", TokenKind::BinOp(BinOp::And)),
-        ExactTokenizationRule::boxed("|", TokenKind::BinOp(BinOp::Or)),
+        ExactTokenizationRule::boxed("+", TokenKind::Plus),
+        ExactTokenizationRule::boxed("-", TokenKind::Minus),
+        ExactTokenizationRule::boxed("*", TokenKind::Star),
+        ExactTokenizationRule::boxed("/", TokenKind::Slash),
+        ExactTokenizationRule::boxed("%", TokenKind::Percent),
+        ExactTokenizationRule::boxed("^", TokenKind::Caret),
+        ExactTokenizationRule::boxed("&", TokenKind::And),
+        ExactTokenizationRule::boxed("|", TokenKind::Or),
         ExactTokenizationRule::boxed("(", TokenKind::Delim(DelimDir::Open, DelimType::Paren)),
         ExactTokenizationRule::boxed("{", TokenKind::Delim(DelimDir::Open, DelimType::Brace)),
         ExactTokenizationRule::boxed("[", TokenKind::Delim(DelimDir::Open, DelimType::Brack)),
         ExactTokenizationRule::boxed(")", TokenKind::Delim(DelimDir::Close, DelimType::Paren)),
         ExactTokenizationRule::boxed("}", TokenKind::Delim(DelimDir::Close, DelimType::Brace)),
         ExactTokenizationRule::boxed("]", TokenKind::Delim(DelimDir::Close, DelimType::Brack)),
+
+        // Integers
+        RegexTokenizationRule::boxed("^\\d+", |capture| {
+            TokenKind::Literal(crate::token::Literal::Number(capture.as_str().into()))
+        })?,
     ])
 }
 

@@ -2,6 +2,8 @@
 members = [
     "mypl_cli",
     "mypl_lex",
+    "mypl_ast",
+    "mypl_parse",
     "mypl_playground",
 ]
 
@@ -12,3 +14,4 @@ default-members = [
 [workspace.dependencies]
 anyhow = "1.0.71"
 regex = "1.3.7"
+thiserror = "1.0.40"

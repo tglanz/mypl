@@ -1,19 +1,28 @@
 extern crate mypl_lex;
+extern crate mypl_ast;
+extern crate mypl_parse;
 
 extern crate anyhow;
 extern crate clap;
 
 use mypl_lex::prelude::*;
+use mypl_parse::prelude::{Parser, RecursiveDescentParser};
 
 use anyhow::Result;
-use clap::Parser;
+use clap::Parser as ClapParser;
 use std::path::Path;
 
-#[derive(Parser, Debug)]
+#[derive(ClapParser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
     #[arg(short, long)]
     input: Vec<String>,
+
+    #[arg(short = 'T', long, default_value_t = true)]
+    show_tokens: bool,
+
+    #[arg(short = 'A', long, default_value_t = true)]
+    show_ast: bool,
 }
 
 fn main() -> Result<()> {
@@ -25,12 +34,19 @@ fn main() -> Result<()> {
         let input_path = Path::new(input);
         let content = read_file(input_path)?;
         let mut tokenizer = Tokenizer::new(&content);
+
+        let mut tokens = Vec::new();
         while let Some(token) = tokenizer.next_token() {
             println!("\ttoken: {:#?}", token);
+            tokens.push(token);
+        }
+
+        let mut parser = RecursiveDescentParser::new(&tokens);
+        let ast = parser.parse()?;
+        if args.show_ast {
+            println!("{:#?}", ast);
         }
     }
-
-    println!("done");
 
     Ok(())
 }

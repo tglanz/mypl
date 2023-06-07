@@ -1,34 +1,10 @@
 use crate::span::Span;
 
 #[derive(Clone, PartialEq, Debug)]
-pub enum BinOp {
-    // +
-    Plus,
-    // -
-    Minus,
-    // *
-    Star,
-    // /
-    Slash,
-    // %
-    Percent,
-    // ^
-    Caret,
-    // &
-    And,
-    // |
-    Or,
-    // <<
-    Shl,
-    // >>
-    Shr,
-}
-
-#[derive(Clone, PartialEq, Debug)]
 pub enum Literal {
-    Identifier(String),
     String(String),
     Number(String),
+    Bool(bool),
 }
 
 #[derive(Clone, PartialEq, Debug)]
@@ -78,6 +54,8 @@ pub enum TokenKind {
     Eq,
     // <
     Lt,
+    // <<
+    LtLt,
     // <=
     Le,
     // ==
@@ -88,12 +66,43 @@ pub enum TokenKind {
     Ge,
     // >
     Gt,
+    // >
+    GtGt,
+    // &
+    And,
+    // &=
+    AndEq,
     // &&
     AndAnd,
+    // |
+    Or,
+    // |=
+    OrEq,
     // ||
     OrOr,
     // !
     Not,
+
+    // +
+    Plus,
+    // +=
+    PlusEq,
+    // -
+    Minus,
+    // -
+    MinusEq,
+    // *
+    Star,
+    // *=
+    StarEq,
+    // /
+    Slash,
+    // /=
+    SlashEq,
+    // %
+    Percent,
+    // ^
+    Caret,
 
     // .
     Dot,
@@ -109,13 +118,10 @@ pub enum TokenKind {
     Comment(String),
 
     Keyword(Keyword),
-
-    BinOp(BinOp),
-    BinOpEq(BinOp),
+    Literal(Literal),
+    Identifier(String),
 
     Delim(DelimDir, DelimType),
-
-    Literal(Literal),
 
     Eof,
 
