@@ -141,6 +141,7 @@ Quadrilateral = union { square: Square, rectangle: Rectangle };
 
 ### Traits 
 
+```
 Point2d = record {
     x: f32,
     y: f32,
@@ -179,6 +180,7 @@ impl Metric for Point3d {
     return this.x.distance() + this.y.distance() + this.z.distance();
   }
 }
+```
 
 ### Modules
 
