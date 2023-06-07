@@ -26,10 +26,10 @@ x: u32 = 0;
 y: u32 = 0;
 
 for i in 0..1000 {
-    if (i mod 2 == 0 and i < 300) {
+    if i mod 2 == 0 && i < 300 {
         x = x + i;
-    } else if (i mod 2 == 1 and i > 500 and i < 1000) {
-        y = y +i;
+    } else if i mod 2 == 1 && i > 500 && i < 1000 {
+        y = y + i;
     }
 }
 </pre>
