@@ -32,7 +32,7 @@ function definition
 // type is "a function from u32 to u32"
 // expression is the function implemntation - `return x = 1`
 
-increment: (x: u32) -> u32 = {
+increment: (x: u32) u32 = {
     return x = 1;
 }
 </pre>
