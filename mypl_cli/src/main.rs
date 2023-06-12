@@ -18,10 +18,10 @@ struct Args {
     #[arg(short, long)]
     input: Vec<String>,
 
-    #[arg(short = 'T', long, default_value_t = true)]
+    #[arg(short = 'T', long, default_value_t = false)]
     show_tokens: bool,
 
-    #[arg(short = 'A', long, default_value_t = true)]
+    #[arg(short = 'A', long, default_value_t = false)]
     show_ast: bool,
 }
 
@@ -37,18 +37,24 @@ fn main() -> Result<()> {
 
         let mut tokens = Vec::new();
         while let Some(token) = tokenizer.next_token() {
+            if args.show_tokens {
             println!("\ttoken: {:#?}", token);
+            }
             tokens.push(token);
         }
 
         let mut parser = RecursiveDescentParser::new(&tokens);
         let ast = parser.parse()?;
         if args.show_ast {
-            println!("{:#?}", ast);
+            show_ast(&ast);
         }
     }
 
     Ok(())
+}
+
+fn show_ast(ast: &mypl_ast::Expr) {
+    println!("{}", mypl_ast::AstFormatter::format_ast(ast));
 }
 
 fn read_file(path: impl AsRef<Path>) -> Result<String> {
