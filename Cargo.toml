@@ -4,6 +4,7 @@ members = [
     "mypl_lex",
     "mypl_ast",
     "mypl_parse",
+    "mypl_interperter",
     "mypl_playground",
 ]
 

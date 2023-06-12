@@ -1,5 +1,4 @@
-use mypl_ast::{BinOp, Expr, ExprKind, UnOp};
-
+use mypl_ast::prelude::{BinOp, Expr, ExprKind, UnOp};
 use mypl_lex::prelude::{DelimDir, DelimType, Token, TokenKind};
 
 use crate::{

@@ -221,6 +221,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "mypl_interperter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "mypl_ast",
+ "mypl_lex",
+ "thiserror",
+]
+
+[[package]]
 name = "mypl_lex"
 version = "0.1.0"
 dependencies = [

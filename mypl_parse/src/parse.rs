@@ -1,7 +1,7 @@
 use anyhow::Result;
 use thiserror::Error;
 
-use mypl_ast::Expr;
+use mypl_ast::prelude::*;
 
 #[derive(Error, Debug)]
 pub enum ParseError {

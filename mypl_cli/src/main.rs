@@ -6,7 +6,8 @@ extern crate anyhow;
 extern crate clap;
 
 use mypl_lex::prelude::*;
-use mypl_parse::prelude::{Parser, RecursiveDescentParser};
+use mypl_ast::prelude::*;
+use mypl_parse::prelude::*;
 
 use anyhow::Result;
 use clap::Parser as ClapParser;
@@ -52,8 +53,8 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn show_ast(ast: &mypl_ast::Expr) {
-    println!("{}", mypl_ast::AstFormatter::format_ast(ast));
+fn show_ast(ast: &Expr) {
+    println!("{}", AstFormatter::format_ast(ast));
 }
 
 fn read_file(path: impl AsRef<Path>) -> Result<String> {

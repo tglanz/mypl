@@ -1,4 +1,4 @@
-use mypl_ast::{BinOp, UnOp};
+use mypl_ast::prelude::{BinOp, UnOp};
 use mypl_lex::prelude::TokenKind;
 
 pub trait TokenKindExtensions {

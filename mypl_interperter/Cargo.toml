@@ -1,0 +1,12 @@
+[package]
+name = "mypl_interperter"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow.workspace = true
+thiserror.workspace = true
+mypl_ast = { path = "../mypl_ast" }
+mypl_lex = { path = "../mypl_lex" }
