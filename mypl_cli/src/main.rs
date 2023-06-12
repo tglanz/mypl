@@ -15,8 +15,11 @@ use std::path::Path;
 #[derive(ClapParser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
+    // #[arg(short, long)]
+    // input: Vec<String>,
+    
     #[arg(short, long)]
-    input: Vec<String>,
+    input: String,
 
     #[arg(short = 'T', long, default_value_t = false)]
     show_tokens: bool,
@@ -28,26 +31,22 @@ struct Args {
 fn main() -> Result<()> {
     let args = Args::parse();
 
-    for input in args.input.iter() {
-        println!("Tokenizing \"{}\"", input);
+    let input_path = Path::new(&args.input);
+    let content = read_file(input_path)?;
+    let mut tokenizer = Tokenizer::new(&content);
 
-        let input_path = Path::new(input);
-        let content = read_file(input_path)?;
-        let mut tokenizer = Tokenizer::new(&content);
-
-        let mut tokens = Vec::new();
-        while let Some(token) = tokenizer.next_token() {
-            if args.show_tokens {
-            println!("\ttoken: {:#?}", token);
-            }
-            tokens.push(token);
+    let mut tokens = Vec::new();
+    while let Some(token) = tokenizer.next_token() {
+        if args.show_tokens {
+        println!("\ttoken: {:#?}", token);
         }
+        tokens.push(token);
+    }
 
-        let mut parser = RecursiveDescentParser::new(&tokens);
-        let ast = parser.parse()?;
-        if args.show_ast {
-            show_ast(&ast);
-        }
+    let mut parser = RecursiveDescentParser::new(&tokens);
+    let ast = parser.parse()?;
+    if args.show_ast {
+        show_ast(&ast);
     }
 
     Ok(())
