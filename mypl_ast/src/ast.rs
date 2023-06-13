@@ -37,12 +37,41 @@ impl BinOp {
     }
 }
 
+impl std::fmt::Display for BinOp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            BinOp::Add => "+",
+            BinOp::Sub => "-",
+            BinOp::Mul => "*",
+            BinOp::Div => "/",
+            BinOp::Rem => "%",
+            BinOp::And => "&",
+            BinOp::Or => "||",
+            BinOp::Eq => "==",
+            BinOp::Lt => "<",
+            BinOp::Le => "<=",
+            BinOp::Ne => "!=",
+            BinOp::Ge => ">=",
+            BinOp::Gt => ">",
+        })
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Copy)]
 pub enum UnOp {
     /// The `!` operator for logical inversion
     Not,
     /// The `-` operator for negation
     Neg,
+}
+
+impl std::fmt::Display for UnOp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            UnOp::Not => "!",
+            UnOp::Neg => "-",
+        })
+    }
 }
 
 impl UnOp {

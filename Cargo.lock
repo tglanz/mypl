@@ -215,6 +215,7 @@ dependencies = [
  "anyhow",
  "clap",
  "mypl_ast",
+ "mypl_interperter",
  "mypl_lex",
  "mypl_parse",
  "thiserror",

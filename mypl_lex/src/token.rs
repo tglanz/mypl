@@ -3,8 +3,9 @@ use crate::span::Span;
 #[derive(Clone, PartialEq, Debug)]
 pub enum Literal {
     String(String),
-    Number(String),
     Bool(bool),
+    Integer(i128),
+    Float(f64),
 }
 
 #[derive(Clone, PartialEq, Debug)]

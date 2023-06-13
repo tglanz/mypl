@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use crate::span::Span;
-use crate::token::{Keyword, Token, TokenKind, DelimDir, DelimType};
+use crate::token::{Keyword, Token, TokenKind, DelimDir, DelimType, Literal};
 
 use regex::Regex;
 
@@ -153,10 +153,28 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed("}", TokenKind::Delim(DelimDir::Close, DelimType::Brace)),
         ExactTokenizationRule::boxed("]", TokenKind::Delim(DelimDir::Close, DelimType::Brack)),
 
-        // Integers
-        RegexTokenizationRule::boxed("^\\d+", |capture| {
-            TokenKind::Literal(crate::token::Literal::Number(capture.as_str().into()))
+        // String Literal
+        RegexTokenizationRule::boxed("^\".*\"", |capture| {
+            TokenKind::Literal(Literal::String(capture.as_str().to_string()))
         })?,
+
+        // Float Literal 
+        // Notice that we only tokenize positive floats - is this good?
+        RegexTokenizationRule::boxed("^\\d+\\.\\d+|^\\d+\\.|\\.\\d+", |capture| {
+            TokenKind::Literal(Literal::Float(capture.as_str().parse::<f64>()
+                                              .expect("Couldn't parse f64 after regex match")))
+        })?,
+
+        // Integer Literal
+        // Notice that we only tokenize positive integers - is this good?
+        RegexTokenizationRule::boxed("^\\d+", |capture| {
+            TokenKind::Literal(Literal::Integer(capture.as_str().parse::<i128>()
+                                                .expect("Couldn't parse u64 after regex match")))
+        })?,
+
+        // Bool Literal
+        ExactTokenizationRule::boxed("true", TokenKind::Literal(Literal::Bool(true))),
+        ExactTokenizationRule::boxed("false", TokenKind::Literal(Literal::Bool(false))),
     ])
 }
 

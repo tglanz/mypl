@@ -63,6 +63,18 @@ allow_warnings = true
 
 # Below are custom
 
+[jobs.run-interpret]
+command = [
+    "cargo", "run",
+    "--color", "always",
+    "--quiet",
+    "--",
+    "--input", "resources/valid-snippets/arithmetic-expression.mypl",
+    "--interpret",
+]
+need_stdout = true
+allow_warnings = true
+
 [jobs.run-dev]
 command = [
     "cargo", "run",

@@ -9,6 +9,8 @@ edition = "2021"
 mypl_lex = { path = "../mypl_lex" }
 mypl_ast = { path = "../mypl_ast" }
 mypl_parse = { path = "../mypl_parse" }
+mypl_interperter = { path = "../mypl_interperter" }
+
 clap = { version = "4.3.0", features = ["derive"] }
 anyhow.workspace = true
 thiserror = "1.0.40"
