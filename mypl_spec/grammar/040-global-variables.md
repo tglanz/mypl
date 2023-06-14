@@ -21,12 +21,7 @@ Factor     | / *       | Left
 Unary      | ! -       | Right
 
 ```ebnf
-
 program = decl* EOF;
-
-
-
-
 
 decl = constDecl
      | stmt
@@ -34,27 +29,20 @@ decl = constDecl
 
 constDecl = "const" IDENTIFIER "=" expr ";" ;
 
-
-
-
 stmt = exprStmt
      ;
 
-exprStmt = expr ";";
-
-
-
-
+exprStmt = expr ";" ;
 
 expr = equality
 
-equality = comparison (("==" "!=") comparison)*;
+equality = comparison (("==" | "!=") comparison)* ;
 
-comparison = term ((">" ">=" "<" "<=") term)*;
+comparison = term ((">" | ">=" | "<" | "<=") term)* ;
 
-term = factor (("-" | "+") factory)*;
+term = factor (("-" | "+") factory)* ;
 
-factor = unary (("/" | "*") unary)*;
+factor = unary (("/" | "*") unary)* ;
 
 unary = ("!" | "-") unary
       | primary
