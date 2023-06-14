@@ -32,7 +32,7 @@ decl = constDecl
      | stmt
      ;
 
-constDecl = "cst" IDENTIFIER "=" expr ";" ;
+constDecl = "const" IDENTIFIER "=" expr ";" ;
 
 
 

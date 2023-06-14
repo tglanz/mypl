@@ -93,7 +93,7 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         })?,
 
         // Keywords
-        ExactTokenizationRule::boxed("cst", TokenKind::Keyword(Keyword::Const)),
+        ExactTokenizationRule::boxed("const", TokenKind::Keyword(Keyword::Const)),
         ExactTokenizationRule::boxed("var", TokenKind::Keyword(Keyword::Var)),
         ExactTokenizationRule::boxed("record", TokenKind::Keyword(Keyword::Record)),
         ExactTokenizationRule::boxed("union", TokenKind::Keyword(Keyword::Union)),

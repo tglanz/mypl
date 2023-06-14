@@ -5,12 +5,14 @@
 ### variable definitions and comments
 
 <pre>
-// this is a comment
-// there is no other way to make a comment
+// this is a comment.
+// there is no other way to make a comment.
 
-cst x: u8 = 30;
+const x: u8 = 30;
 var y: u8 = 10;
 
+// we can also declare a variable without specificying mutability.
+// the default mutability is "const".
 z: u8 = 40;
 </pre>
 
@@ -22,13 +24,13 @@ z: u8 = 40;
 - the other should sum odd numbers from 500 to 1000
 
 <pre>
-x: u32 = 0;
-y: u32 = 0;
+var x: u32 = 0;
+var y: u32 = 0;
 
 for i in 0..1000 {
-    if i mod 2 == 0 && i < 300 {
+    if i % 2 == 0 && i < 300 {
         x = x + i;
-    } else if i mod 2 == 1 && i > 500 && i < 1000 {
+    } else if i % 2 == 1 && i > 500 && i < 1000 {
         y = y + i;
     }
 }
@@ -44,7 +46,7 @@ for (const i of ...) {
 
 ### simple functions
 
-define an in/de crement functions and apply them to a variable
+define an in/de crement functions and apply them to a variable.
 
 <pre>
 
@@ -56,7 +58,7 @@ decrement: (value: i8) i8 = {
     return value - 1;
 }
 
-x: i8 = 0;
+var x: i8 = 0;
 x = increment(x);
 x = decrement(x);
 
@@ -210,12 +212,12 @@ For example
 ```
 module shapes;
 
-private Point2d {
+private Point2d = record {
   x: f32,
   y: f32,
 }
 
-public Circle {
+public Circle = record {
   center: Point2d,
   radius: f32,
 }

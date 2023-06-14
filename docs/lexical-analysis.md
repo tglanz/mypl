@@ -6,9 +6,9 @@ Tokens are the smalles sequences of characters that has meaning for us.
 
 Let's take a look at a code example from `mypl`:
 
-    cst number: i8 = 3;
+    const number: i8 = 3;
 
-The Tokens are objects that represents the following: `cst`, `number`, `:`, `i8`, `=`, `3` and `;`.
+The Tokens are objects that represents the following: `const`, `number`, `:`, `i8`, `=`, `3` and `;`.
 
 The Tokens are define [here](../mypl_lex//src/token.rs).
 

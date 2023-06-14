@@ -6,4 +6,4 @@ for if
 
 record union
 
-cst var
+const var
