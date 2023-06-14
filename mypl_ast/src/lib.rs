@@ -9,5 +9,5 @@ pub mod prelude {
     use crate::*;
     pub use ast::*;
     pub use ast_formatter::AstFormatter;
-    pub use visitor::{Visitor, AcceptVisitor};
+    pub use visitor::{ExprVisitor, AcceptExprVisitor, StmtVisitor, AcceptStmtVisitor};
 }

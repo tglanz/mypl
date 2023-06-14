@@ -47,6 +47,8 @@ pub enum Keyword {
 
     F32,
     F16,
+
+    Print,
 }
 
 #[derive(Clone, PartialEq, Debug)]

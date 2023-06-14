@@ -92,5 +92,16 @@ pub enum ExprKind {
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct Expr {
-    pub kind: ExprKind
+    pub kind: ExprKind,
+}
+
+#[derive(Clone, PartialEq, Debug)]
+pub enum StmtKind {
+    Expr(Box<Expr>),
+    Print(Box<Expr>),
+}
+
+#[derive(Clone, PartialEq, Debug)]
+pub struct Stmt {
+    pub kind: StmtKind,
 }

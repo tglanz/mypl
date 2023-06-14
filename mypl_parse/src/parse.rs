@@ -10,5 +10,5 @@ pub enum ParseError {
 }
 
 pub trait Parser {
-    fn parse(&mut self) -> Result<Expr, ParseError>;
+    fn parse(&mut self) -> Result<Vec<Stmt>, ParseError>;
 }

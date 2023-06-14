@@ -25,8 +25,13 @@ impl Interperter {
         Self {}
     }
 
-    pub fn interpret_expr(&mut self, expr: &Expr) -> Result<ExprValue, InterperterError> {
-        expr.accept_visitor(self)
+    // pub fn interpret_expr(&mut self, expr: &Expr) -> Result<ExprValue, InterperterError> {
+    //     expr.accept_expr_visitor(self)
+    // }
+
+    pub fn interpret_stmt(&mut self, stmt: &Stmt) -> Result<(), InterperterError> {
+        stmt.accept_stmt_visitor(self)?;
+        Ok(())
     }
 }
 
@@ -170,14 +175,14 @@ impl Eval {
     }
 }
 
-impl Visitor for Interperter {
+impl ExprVisitor for Interperter {
     type Result = Result<ExprValue, InterperterError>;
 
     fn visit_binary_expr(&mut self, op: &BinOp, lhs: &Expr, rhs: &Expr) -> Self::Result {
         use InterperterError::*;
 
-        let lhs_val = self.interpret_expr(lhs)?;
-        let rhs_val = self.interpret_expr(rhs)?;
+        let lhs_val = lhs.accept_expr_visitor(self)?;
+        let rhs_val = rhs.accept_expr_visitor(self)?;
 
         let lhs_type = lhs_val.get_type();
         let rhs_type = rhs_val.get_type();
@@ -198,7 +203,7 @@ impl Visitor for Interperter {
 
     fn visit_unary_expr(&mut self, op: &UnOp, expr: &Expr) -> Self::Result {
         use InterperterError::*;
-        let expr_val = self.interpret_expr(expr)?;
+        let expr_val = expr.accept_expr_visitor(self)?;
         match expr_val {
             ExprValue::String(_) => Err(InvalidUnaryApplication(*op, ExprType::String)),
             ExprValue::Bool(val) => match op {
@@ -223,5 +228,20 @@ impl Visitor for Interperter {
             Literal::Integer(val) => ExprValue::Integer(val.clone()),
             Literal::Float(val) => ExprValue::Float(val.clone()),
         })
+    }
+}
+
+impl StmtVisitor for Interperter {
+    type Result = Result<(), InterperterError>;
+
+    fn visit_expr_stmt(&mut self, expr: &Expr) -> Self::Result {
+        expr.accept_expr_visitor(self)?;
+        Ok(())
+    }
+
+    fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
+        let expr_val = expr.accept_expr_visitor(self)?;
+        println!("{:?}", expr_val);
+        Ok(())
     }
 }

@@ -72,24 +72,19 @@ fn execute(content: &str, show_tokens: bool, show_ast: bool, interpret: bool) ->
     }
 
     let mut parser = RecursiveDescentParser::new(&tokens);
-    let ast = parser.parse()?;
+    let statements = parser.parse()?;
     if show_ast {
-        println!("{}", AstFormatter::format_ast(&ast));
+        println!("{}", AstFormatter::format_ast(&statements));
     }
 
     if interpret {
         let mut interperter = Interperter::new();
-        let expr_val = interperter.interpret_expr(&ast)?;
-        println!("{:?}", expr_val);
+        for stmt in statements {
+            interperter.interpret_stmt(&stmt)?;
+        }
     }
 
     Ok(())
-}
-
-fn interpret(ast: &Expr) -> Result<ExprValue> {
-    let mut interperter = Interperter::new();
-    let val = interperter.interpret_expr(ast)?;
-    Ok(val)
 }
 
 fn read_file(path: impl AsRef<Path>) -> Result<String> {

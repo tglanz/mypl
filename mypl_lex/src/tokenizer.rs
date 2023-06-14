@@ -91,6 +91,7 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         RegexTokenizationRule::boxed("^//.*", |capture| {
             TokenKind::Comment(capture.as_str().into())
         })?,
+
         // Keywords
         ExactTokenizationRule::boxed("cst", TokenKind::Keyword(Keyword::Const)),
         ExactTokenizationRule::boxed("var", TokenKind::Keyword(Keyword::Var)),
@@ -113,6 +114,8 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed("i8", TokenKind::Keyword(Keyword::I8)),
         ExactTokenizationRule::boxed("f32", TokenKind::Keyword(Keyword::F32)),
         ExactTokenizationRule::boxed("f16", TokenKind::Keyword(Keyword::F16)),
+        ExactTokenizationRule::boxed("print", TokenKind::Keyword(Keyword::Print)),
+        
         // Double Character
         ExactTokenizationRule::boxed("==", TokenKind::EqEq),
         ExactTokenizationRule::boxed("<=", TokenKind::Le),
@@ -129,6 +132,7 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed("/=", TokenKind::SlashEq),
         ExactTokenizationRule::boxed("&=", TokenKind::AndEq),
         ExactTokenizationRule::boxed("|=", TokenKind::OrEq),
+
         // Single Characters
         ExactTokenizationRule::boxed("=", TokenKind::Eq),
         ExactTokenizationRule::boxed("<", TokenKind::Lt),
