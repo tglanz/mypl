@@ -11,6 +11,7 @@ pub trait ExprVisitor {
     fn visit_binary_expr(&mut self, op: &BinOp, lhs: &Expr, rhs: &Expr) -> Self::Result;
     fn visit_unary_expr(&mut self, op: &UnOp, expr: &Expr) -> Self::Result;
     fn visit_literal_expr(&mut self, literal: &Literal) -> Self::Result; 
+    fn visit_variable_expr(&mut self, identifier: &String) -> Self::Result;
 }
 
 impl AcceptExprVisitor for Expr {
@@ -20,6 +21,7 @@ impl AcceptExprVisitor for Expr {
             Binary(op, lhs, rhs) => visitor.visit_binary_expr(op, lhs, rhs),
             Unary(op, expr) => visitor.visit_unary_expr(op, expr),
             Literal(literal) => visitor.visit_literal_expr(literal),
+            Variable(identifier) => visitor.visit_variable_expr(identifier),
             
         }
     }
@@ -33,7 +35,8 @@ pub trait StmtVisitor {
     type Result;
 
     fn visit_expr_stmt(&mut self, expr: &Expr) -> Self::Result;
-    fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result;
+    // fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result;
+    fn visit_decl_stmt(&mut self, decl: &Decl) -> Self::Result;
 }
 
 impl AcceptStmtVisitor for Stmt {
@@ -41,7 +44,8 @@ impl AcceptStmtVisitor for Stmt {
         use StmtKind::*;
         match &self.kind {
             Expr(expr) => visitor.visit_expr_stmt(expr),
-            Print(expr) => visitor.visit_print_stmt(expr),
+            // Print(expr) => visitor.visit_print_stmt(expr),
+            Decl(decl) => visitor.visit_decl_stmt(decl),
         }
     }
 }

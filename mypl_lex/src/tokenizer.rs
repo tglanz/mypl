@@ -179,6 +179,11 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         // Bool Literal
         ExactTokenizationRule::boxed("true", TokenKind::Literal(Literal::Bool(true))),
         ExactTokenizationRule::boxed("false", TokenKind::Literal(Literal::Bool(false))),
+
+        // Identifier
+        RegexTokenizationRule::boxed("^[a-zA-Z]\\w*", |capture| {
+            TokenKind::Identifier(capture.as_str().to_string())
+        })?,
     ])
 }
 

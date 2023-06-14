@@ -132,6 +132,22 @@ pub enum TokenKind {
     Undefined,
 }
 
+impl TokenKind {
+    pub fn unwrap_identifier(&self) -> &String {
+        match self {
+            TokenKind::Identifier(identifier) => identifier,
+            _ => panic!("attempted to unwrap_identifier but is {:?}", self),
+        }
+    }
+    
+    pub fn unwrap_literal(&self) -> &Literal {
+        match self {
+            TokenKind::Literal(literal) => literal,
+            _ => panic!("attempted to unwrap_literal but is {:?}", self),
+        }
+    }
+}
+
 #[derive(Clone, PartialEq, Debug)]
 pub struct Token {
     pub kind: TokenKind,

@@ -61,6 +61,26 @@ impl<'a> RecursiveDescentParser<'a> {
         })
     }
 
+    fn match_identifier(&mut self) -> Option<String> {
+        self.token()
+            .and_then(|t| match &t.kind {
+                TokenKind::Identifier(identifier) => Some(identifier),
+                _ => None,
+            })
+            .cloned()
+            .when_some(|| self.advance())
+    }
+
+    fn match_literal(&mut self) -> Option<Literal> {
+        self.token()
+            .and_then(|t| match &t.kind {
+                TokenKind::Literal(literal) => Some(literal),
+                _ => None
+            })
+            .cloned()
+            .when_some(|| self.advance())
+    }
+
     fn match_binary_op(&mut self, ops: &[BinOp]) -> Option<BinOp> {
         self
             .token()
@@ -90,34 +110,63 @@ impl<'a> RecursiveDescentParser<'a> {
     fn program(&mut self) -> Result<Vec<Stmt>, ParseError> {
         let mut statements = Vec::new();
         while let None = self.match_variant(&TokenKind::Eof) {
-            statements.push(self.statement()?);
+            statements.push(self.decl()?);
         }
 
         Ok(statements)
     }
 
-    fn statement(&mut self) -> Result<Stmt, ParseError> {
-        if self.match_keyword(&Keyword::Print).is_some() {
-            self.print_statement()
+    fn decl(&mut self) -> Result<Stmt, ParseError> {
+        if self.match_keyword(&Keyword::Const).is_some() {
+            Ok(self.const_decl()?)
         } else {
-            self.expression_statement()
+            Ok(self.statement()?)
         }
     }
 
-    fn print_statement(&mut self) -> Result<Stmt, ParseError> {
-        let expr = self.expression()?;
+    fn const_decl(&mut self) -> Result<Stmt, ParseError> {
+        let identifier = self.match_identifier()
+            .expect("decl expected \"identifier\" token");
+        
+        self.match_variant(&TokenKind::Eq)
+            .expect("decl expected \"=\" token");
+
+        let expr = self.expression()
+            .expect("decl expected initializer expression");
+
         self.match_variant(&TokenKind::SemiColon)
-            .expect("print_statement: expected token \";\"");
+            .expect("decl expected \";\" token");
 
         Ok(Stmt {
-            kind: StmtKind::Print(Box::new(expr))
+            kind: StmtKind::Decl(Box::new(Decl {
+                kind: DeclKind::Const(identifier, Box::new(expr))
+            }))
         })
     }
+
+    fn statement(&mut self) -> Result<Stmt, ParseError> {
+        // if self.match_keyword(&Keyword::Print).is_some() {
+        //     self.print_statement()
+        // } else {
+        //     self.expression_statement()
+        // }
+        self.expression_statement()
+    }
+
+    // fn print_statement(&mut self) -> Result<Stmt, ParseError> {
+    //     let expr = self.expression()?;
+    //     self.match_variant(&TokenKind::SemiColon)
+    //         .expect("print_statement: expected token \";\"");
+
+    //     Ok(Stmt {
+    //         kind: StmtKind::Print(Box::new(expr))
+    //     })
+    // }
 
     fn expression_statement(&mut self) -> Result<Stmt, ParseError> {
         let expr = self.expression()?;
         let _ = self.match_variant(&TokenKind::SemiColon)
-            .expect("exprStmt: Expected token \";\"");
+            .ok_or_else(|| ParseError::Default("exprStmt: Expected token \";\"".to_string()));
 
         Ok(Stmt {
             kind: StmtKind::Expr(Box::new(expr))
@@ -196,47 +245,40 @@ impl<'a> RecursiveDescentParser<'a> {
     }
 
     fn primary(&mut self) -> Result<Expr, ParseError> {
-        if let Some(token) = self.token() {
-            let ans = match &token.kind {
-                TokenKind::Literal(literal) => Ok(Expr {
-                    kind: ExprKind::Literal(literal.clone()),
-                }),
-                _ => {
-                    let message = format!("expected primary literal token, found {:#?}", token);
-                    Err(ParseError::Default(message))
-                },
-            };
+        // TODO: This is a very shitty code. Refactor.
+        if let Some(literal) = self.match_literal() {
+            Ok(Expr {
+                kind: ExprKind::Literal(literal)
+            })
+        } else if self.match_predicate(|k| match k {
+            TokenKind::Delim(DelimDir::Open, DelimType::Paren) => true,
+            _ => false,
+        }).is_some() {
+            let expr = self
+                .expression()
+                .expect("SyntaxError: expected expression - TODO: better error handling");
 
-            self.advance();
-            return ans;
+            let _ = self
+                .match_predicate(|k| match k {
+                    TokenKind::Delim(DelimDir::Close, DelimType::Paren) => true,
+                    _ => false,
+                })
+                .expect("SyntaxError: expected right paren - TODO: better error handling");
+
+            Ok(expr)
+        } else if let Some(ident) = self.match_identifier() {
+            Ok(Expr {
+                kind: ExprKind::Variable(ident.to_string())
+            })
+        } else {
+            Err(ParseError::Default("primary expression exhausted".to_string()))
         }
-
-        let _ = self
-            .match_predicate(|k| match k {
-                TokenKind::Delim(DelimDir::Open, DelimType::Paren) => true,
-                _ => false,
-            })
-            .expect("SyntaxError: expected left paren - TODO: better error handling");
-
-        let expr = self
-            .expression()
-            .expect("SyntaxError: expected expression - TODO: better error handling");
-
-        let _ = self
-            .match_predicate(|k| match k {
-                TokenKind::Delim(DelimDir::Close, DelimType::Paren) => true,
-                _ => false,
-            })
-            .expect("SyntaxError: expected right paren - TODO: better error handling");
-
-        Ok(expr)
     }
 }
 
 impl<'a> Parser for RecursiveDescentParser<'a> {
     fn parse(&mut self) -> Result<Vec<Stmt>, ParseError> {
         self.program()
-        // self.expression()
     }
 }
 

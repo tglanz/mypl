@@ -88,6 +88,7 @@ pub enum ExprKind {
     Binary(BinOp, Box<Expr>, Box<Expr>),
     Unary(UnOp, Box<Expr>),
     Literal(Literal),
+    Variable(String),
 }
 
 #[derive(Clone, PartialEq, Debug)]
@@ -96,12 +97,24 @@ pub struct Expr {
 }
 
 #[derive(Clone, PartialEq, Debug)]
+pub enum DeclKind {
+    Const(String, Box::<Expr>),
+}
+
+#[derive(Clone, PartialEq, Debug)]
+pub struct Decl {
+    pub kind: DeclKind,
+}
+
+#[derive(Clone, PartialEq, Debug)]
 pub enum StmtKind {
     Expr(Box<Expr>),
-    Print(Box<Expr>),
+    // Print(Box<Expr>),
+    Decl(Box<Decl>),
 }
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct Stmt {
     pub kind: StmtKind,
 }
+

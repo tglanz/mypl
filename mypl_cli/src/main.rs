@@ -33,15 +33,19 @@ struct Args {
     show_ast: bool,
 
     #[arg(long, default_value_t = false)]
+    disable_auto_semicolon: bool,
+
+    #[arg(long, default_value_t = false)]
     interpret: bool,
 }
 
 fn main() -> Result<()> {
     let args = Args::parse();
+    let mut interperter = Interperter::new();
 
-    if let Some(input) = args.input {
+    if let Some(input) = &args.input {
         let content = read_file(Path::new(&input))?;
-        execute(&content, args.show_tokens, args.show_ast, args.interpret)?;
+        execute(&mut interperter, &content, &args);
     } else {
         loop {
             print!("> ");
@@ -54,37 +58,49 @@ fn main() -> Result<()> {
                 break;
             }
 
-            execute(&content, args.show_tokens, args.show_ast, args.interpret)?;
+            execute(&mut interperter, &content, &args);
         }
     }
 
     Ok(())
 }
 
-fn execute(content: &str, show_tokens: bool, show_ast: bool, interpret: bool) -> Result<()> {
-    let mut tokenizer = Tokenizer::new(content);
+fn execute(interperter: &mut Interperter, content: &str, args: &Args) {
+    let mut normalized_content = content.trim().to_string();
+
+    if !args.disable_auto_semicolon && !normalized_content.ends_with(";") {
+        normalized_content = format!("{};", content);
+    }
+
+    let mut tokenizer = Tokenizer::new(&normalized_content);
     let mut tokens = Vec::new();
+
     while let Some(token) = tokenizer.next_token() {
-        if show_tokens {
+        if args.show_tokens {
             println!("\ttoken: {:#?}", token);
         }
         tokens.push(token);
     }
 
     let mut parser = RecursiveDescentParser::new(&tokens);
-    let statements = parser.parse()?;
-    if show_ast {
-        println!("{}", AstFormatter::format_ast(&statements));
-    }
 
-    if interpret {
-        let mut interperter = Interperter::new();
-        for stmt in statements {
-            interperter.interpret_stmt(&stmt)?;
+    match parser.parse() {
+        Err(parse_error) => println!("ParseErrror::{:?}", parse_error),
+        Ok(statements) => {
+            if args.show_ast {
+                println!("{}", AstFormatter::format_ast(&statements));
+            }
+
+            if args.interpret {
+                for stmt in statements {
+                    match interperter.interpret_stmt(&stmt) {
+                        Err(err) => println!("InterperterError::{:?}", err),
+                        _ => {},
+                    }
+                }
+            }
         }
     }
-
-    Ok(())
 }
 
 fn read_file(path: impl AsRef<Path>) -> Result<String> {

@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use mypl_lex::prelude::*;
 use mypl_ast::prelude::*;
 
@@ -16,13 +18,24 @@ pub enum InterperterError {
 
     #[error("Cannot apply unary operator \"{0}\" on type \"{1:?}\"")]
     InvalidUnaryApplication(UnOp, ExprType),
+
+    #[error("Symbol \"{0}\" ({1}) not found")]
+    SymbolNotFound(String, String),
+
+
+    #[error("Symbol \"{0}\" is already defined")]
+    SymbolAlreadyDefined(String),
 }
 
-pub struct Interperter {}
+pub struct Interperter {
+    variables: HashMap<String, ExprValue>,
+}
 
 impl Interperter {
     pub fn new() -> Self {
-        Self {}
+        Self {
+            variables: Default::default(),
+        }
     }
 
     pub fn evaluate_expr(&mut self, expr: &Expr) -> Result<ExprValue, InterperterError> {
@@ -229,19 +242,44 @@ impl ExprVisitor for Interperter {
             Literal::Float(val) => ExprValue::Float(val.clone()),
         })
     }
+
+    fn visit_variable_expr(&mut self, identifier: &String) -> Self::Result {
+        if let Some(val) = self.variables.get(identifier) {
+            Ok(val.clone())
+        } else {
+            Err(InterperterError::SymbolNotFound(identifier.to_string(), "Variable".to_string()))
+        }
+    }
 }
 
 impl StmtVisitor for Interperter {
     type Result = Result<(), InterperterError>;
 
     fn visit_expr_stmt(&mut self, expr: &Expr) -> Self::Result {
-        self.evaluate_expr(&expr)?;
+        let val = self.evaluate_expr(&expr)?;
+        println!("{:?}", val);
+
         Ok(())
     }
 
-    fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
-        let expr_val = self.evaluate_expr(&expr)?; 
-        println!("{:?}", expr_val);
-        Ok(())
+    // fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
+    //     let expr_val = self.evaluate_expr(&expr)?; 
+    //     println!("{:?}", expr_val);
+    //     Ok(())
+    // }
+
+    fn visit_decl_stmt(&mut self, decl: &Decl) -> Self::Result {
+        match &decl.kind {
+            DeclKind::Const(ident, init_expr) => {
+                let expr_val = self.evaluate_expr(init_expr.as_ref())?;
+                
+                if self.variables.contains_key(ident) {
+                    return Err(InterperterError::SymbolAlreadyDefined(ident.to_string()))
+                }
+
+                self.variables.insert(ident.to_string(), expr_val);
+                Ok(())
+            }
+        }
     }
 }
