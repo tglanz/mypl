@@ -25,9 +25,9 @@ impl Interperter {
         Self {}
     }
 
-    // pub fn interpret_expr(&mut self, expr: &Expr) -> Result<ExprValue, InterperterError> {
-    //     expr.accept_expr_visitor(self)
-    // }
+    pub fn evaluate_expr(&mut self, expr: &Expr) -> Result<ExprValue, InterperterError> {
+        expr.accept_expr_visitor(self)
+    }
 
     pub fn interpret_stmt(&mut self, stmt: &Stmt) -> Result<(), InterperterError> {
         stmt.accept_stmt_visitor(self)?;
@@ -181,8 +181,8 @@ impl ExprVisitor for Interperter {
     fn visit_binary_expr(&mut self, op: &BinOp, lhs: &Expr, rhs: &Expr) -> Self::Result {
         use InterperterError::*;
 
-        let lhs_val = lhs.accept_expr_visitor(self)?;
-        let rhs_val = rhs.accept_expr_visitor(self)?;
+        let lhs_val = self.evaluate_expr(&lhs)?;
+        let rhs_val = self.evaluate_expr(&rhs)?;
 
         let lhs_type = lhs_val.get_type();
         let rhs_type = rhs_val.get_type();
@@ -203,7 +203,7 @@ impl ExprVisitor for Interperter {
 
     fn visit_unary_expr(&mut self, op: &UnOp, expr: &Expr) -> Self::Result {
         use InterperterError::*;
-        let expr_val = expr.accept_expr_visitor(self)?;
+        let expr_val = self.evaluate_expr(&expr)?;
         match expr_val {
             ExprValue::String(_) => Err(InvalidUnaryApplication(*op, ExprType::String)),
             ExprValue::Bool(val) => match op {
@@ -235,12 +235,12 @@ impl StmtVisitor for Interperter {
     type Result = Result<(), InterperterError>;
 
     fn visit_expr_stmt(&mut self, expr: &Expr) -> Self::Result {
-        expr.accept_expr_visitor(self)?;
+        self.evaluate_expr(&expr)?;
         Ok(())
     }
 
     fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
-        let expr_val = expr.accept_expr_visitor(self)?;
+        let expr_val = self.evaluate_expr(&expr)?; 
         println!("{:?}", expr_val);
         Ok(())
     }
