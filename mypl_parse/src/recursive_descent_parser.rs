@@ -8,6 +8,8 @@ use crate::{
     token_kind_predicates::TokenKindExtensions,
 };
 
+use ParseError::*;
+
 trait OptionExtensions {
     fn when_some<R, F: FnOnce() -> R>(self, f: F) -> Self;
 }
@@ -119,6 +121,8 @@ impl<'a> RecursiveDescentParser<'a> {
     fn decl(&mut self) -> Result<Stmt, ParseError> {
         if self.match_keyword(&Keyword::Const).is_some() {
             Ok(self.const_decl()?)
+        } else if self.match_keyword(&Keyword::Var).is_some() {
+            Ok(self.var_decl()?)
         } else {
             Ok(self.statement()?)
         }
@@ -126,16 +130,16 @@ impl<'a> RecursiveDescentParser<'a> {
 
     fn const_decl(&mut self) -> Result<Stmt, ParseError> {
         let identifier = self.match_identifier()
-            .expect("decl expected \"identifier\" token");
+            .ok_or_else(|| ExpectedToken("identifier".to_string(), "const_decl".to_string()))?;
         
-        self.match_variant(&TokenKind::Eq)
-            .expect("decl expected \"=\" token");
+        let _ = self.match_variant(&TokenKind::Eq)
+            .ok_or_else(|| ExpectedToken("=".to_string(), "const_decl".to_string()));
 
         let expr = self.expression()
-            .expect("decl expected initializer expression");
+            .map_err(|_| ParseError::Default("expected expression in const_decl".to_string()))?;
 
-        self.match_variant(&TokenKind::SemiColon)
-            .expect("decl expected \";\" token");
+        let _ = self.match_variant(&TokenKind::SemiColon)
+            .ok_or_else(|| ExpectedToken(";".to_string(), "const_decl".to_string()));
 
         Ok(Stmt {
             kind: StmtKind::Decl(Box::new(Decl {
@@ -144,27 +148,47 @@ impl<'a> RecursiveDescentParser<'a> {
         })
     }
 
-    fn statement(&mut self) -> Result<Stmt, ParseError> {
-        // if self.match_keyword(&Keyword::Print).is_some() {
-        //     self.print_statement()
-        // } else {
-        //     self.expression_statement()
-        // }
-        self.expression_statement()
+    fn var_decl(&mut self) -> Result<Stmt, ParseError> {
+        let identifier = self.match_identifier()
+            .ok_or_else(|| ExpectedToken("identifier".to_string(), "decl".to_string()))?;
+        
+        self.match_variant(&TokenKind::Eq)
+            .ok_or_else(|| ExpectedToken("=".to_string(), "decl".to_string()))?;
+
+        let expr = self.expression()
+            .map_err(|_| ParseError::Default("expected expression at var_decl".to_string()))?;
+
+        self.match_variant(&TokenKind::SemiColon)
+            .ok_or_else(|| ExpectedToken(";".to_string(), "decl".to_string()))?;
+
+        Ok(Stmt {
+            kind: StmtKind::Decl(Box::new(Decl {
+                kind: DeclKind::Var(identifier, Box::new(expr))
+            }))
+        })
     }
 
-    // fn print_statement(&mut self) -> Result<Stmt, ParseError> {
-    //     let expr = self.expression()?;
-    //     self.match_variant(&TokenKind::SemiColon)
-    //         .expect("print_statement: expected token \";\"");
+    fn statement(&mut self) -> Result<Stmt, ParseError> {
+        if self.match_keyword(&Keyword::Print).is_some() {
+            self.print_statement()
+        } else {
+            self.expression_statement()
+        }
+    }
 
-    //     Ok(Stmt {
-    //         kind: StmtKind::Print(Box::new(expr))
-    //     })
-    // }
+    fn print_statement(&mut self) -> Result<Stmt, ParseError> {
+        let expr = self.expression()?;
+        self.match_variant(&TokenKind::SemiColon)
+            .ok_or_else(|| ExpectedToken(";".to_string(), "print_statement".to_string()))?;
+        Ok(Stmt {
+            kind: StmtKind::Print(Box::new(expr)),
+        })
+    }
 
     fn expression_statement(&mut self) -> Result<Stmt, ParseError> {
         let expr = self.expression()?;
+
+        // TODO: type the error 
         let _ = self.match_variant(&TokenKind::SemiColon)
             .ok_or_else(|| ParseError::Default("exprStmt: Expected token \";\"".to_string()));
 
@@ -178,42 +202,39 @@ impl<'a> RecursiveDescentParser<'a> {
     }
 
     fn equality(&mut self) -> Result<Expr, ParseError> {
-        // TODO: figure unwraps
-        let lhs = self.comparison()?;
+        let mut lhs = self.comparison()?;
 
         while let Some(op) = self.match_binary_op(&[BinOp::Eq, BinOp::Ne]) {
-            let rhs = self.comparison()?;
-            return Ok(Expr {
-                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs)),
-            });
+            let rhs = self.expression()?;
+            lhs = Expr {
+                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs))
+            }
         }
 
         Ok(lhs)
     }
 
     fn comparison(&mut self) -> Result<Expr, ParseError> {
-        // TODO: figure unwraps
-        let lhs = self.term()?;
+        let mut lhs = self.term()?;
 
         while let Some(op) = self.match_binary_op(&[BinOp::Gt, BinOp::Ge, BinOp::Lt, BinOp::Le]) {
             let rhs = self.term()?;
-            return Ok(Expr {
-                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs)),
-            });
+            lhs = Expr {
+                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs))
+            }
         }
 
         Ok(lhs)
     }
 
     fn term(&mut self) -> Result<Expr, ParseError> {
-        // TODO: figure unwraps
-        let lhs = self.factor()?;
+        let mut lhs = self.factor()?;
 
         while let Some(op) = self.match_binary_op(&[BinOp::Add, BinOp::Sub]) {
             let rhs = self.factor()?;
-            return Ok(Expr {
-                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs)),
-            });
+            lhs = Expr {
+                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs))
+            }
         }
 
         Ok(lhs)
@@ -221,13 +242,13 @@ impl<'a> RecursiveDescentParser<'a> {
 
     fn factor(&mut self) -> Result<Expr, ParseError> {
         // TODO: figure unwraps
-        let lhs = self.unary()?;
+        let mut lhs = self.unary()?;
 
         while let Some(op) = self.match_binary_op(&[BinOp::Mul, BinOp::Div]) {
             let rhs = self.unary()?;
-            return Ok(Expr {
-                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs)),
-            });
+            lhs = Expr {
+                kind: ExprKind::Binary(op, Box::new(lhs), Box::new(rhs))
+            }
         }
 
         Ok(lhs)

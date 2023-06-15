@@ -98,6 +98,7 @@ pub struct Expr {
 
 #[derive(Clone, PartialEq, Debug)]
 pub enum DeclKind {
+    Var(String, Box::<Expr>),
     Const(String, Box::<Expr>),
 }
 
@@ -109,7 +110,7 @@ pub struct Decl {
 #[derive(Clone, PartialEq, Debug)]
 pub enum StmtKind {
     Expr(Box<Expr>),
-    // Print(Box<Expr>),
+    Print(Box<Expr>),
     Decl(Box<Decl>),
 }
 

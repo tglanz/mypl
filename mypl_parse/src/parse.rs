@@ -7,6 +7,9 @@ use mypl_ast::prelude::*;
 pub enum ParseError {
     #[error("ParseError: {0}")]
     Default(String),
+
+    #[error("Expected token \"{0}\" at \"{1}\"")]
+    ExpectedToken(String, String),
 }
 
 pub trait Parser {

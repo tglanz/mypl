@@ -262,15 +262,15 @@ impl StmtVisitor for Interperter {
         Ok(())
     }
 
-    // fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
-    //     let expr_val = self.evaluate_expr(&expr)?; 
-    //     println!("{:?}", expr_val);
-    //     Ok(())
-    // }
+    fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
+        let expr_val = self.evaluate_expr(&expr)?; 
+        println!("{:?}", expr_val);
+        Ok(())
+    }
 
     fn visit_decl_stmt(&mut self, decl: &Decl) -> Self::Result {
         match &decl.kind {
-            DeclKind::Const(ident, init_expr) => {
+            DeclKind::Const(ident, init_expr) | DeclKind::Var(ident, init_expr) => {
                 let expr_val = self.evaluate_expr(init_expr.as_ref())?;
                 
                 if self.variables.contains_key(ident) {
@@ -279,7 +279,7 @@ impl StmtVisitor for Interperter {
 
                 self.variables.insert(ident.to_string(), expr_val);
                 Ok(())
-            }
+            },
         }
     }
 }

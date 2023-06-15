@@ -24,15 +24,20 @@ Unary      | ! -       | Right
 program = decl* EOF;
 
 decl = constDecl
+     | varDecl
      | stmt
      ;
 
 constDecl = "const" IDENTIFIER "=" expr ";" ;
+varDecl = "var" IDENTIFIER "=" expr ";" ;
 
 stmt = exprStmt
+     | printStmr
      ;
 
 exprStmt = expr ";" ;
+
+printStmt = "print" expr ";" ;
 
 expr = equality
 
