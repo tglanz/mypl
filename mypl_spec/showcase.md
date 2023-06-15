@@ -10,10 +10,6 @@
 
 const x: u8 = 30;
 var y: u8 = 10;
-
-// we can also declare a variable without specificying mutability.
-// the default mutability is "const".
-z: u8 = 40;
 </pre>
 
 
@@ -50,11 +46,11 @@ define an in/de crement functions and apply them to a variable.
 
 <pre>
 
-increment: (value: i8) i8 = {
+const increment: (value: i8) i8 = {
     return value + 1;
 }
 
-decrement: (value: i8) i8 = {
+const decrement: (value: i8) i8 = {
     return value - 1;
 }
 
@@ -70,13 +66,13 @@ x = decrement(x);
 
 <pre>
 // definition of the Point record
-Point = record {
+const Point = record {
     x: u32,
     y: u32,
 };
 
 // instantiation of a Point record
-point: Point = {
+const point: Point = {
     x = 4,
     y = 3,
 };
@@ -86,7 +82,7 @@ point: Point = {
 
 <pre>
 // define a Geometry union
-Geometry = union {
+const Geometry = union {
     Circle = record {
         center: Point,
         radius: u32,
@@ -113,21 +109,21 @@ potentially, we aim for the following capability
 
 <pre>
 // define a rectangle record
-Rectangle = record {
+const Rectangle = record {
     center: Point,
     width: u32,
     height: u32,
 };
 
 // define a square record
-Square = record {
+const Square = record {
     center: Point,
     width: u32,
     height: u32,
 };
 
 // define a geometry union using already defined records
-Geometry = union {
+const Geometry = union {
     Circle = record {
         center: Point,
         radius: u32,
@@ -137,19 +133,19 @@ Geometry = union {
 }
 
 // define a quadrilateral union using already defined, and already used in other union records
-Quadrilateral = union { square: Square, rectangle: Rectangle };
+const Quadrilateral = union { square: Square, rectangle: Rectangle };
 
 </pre>
 
 ### Traits 
 
 ```
-Point2d = record {
+const Point2d = record {
     x: f32,
     y: f32,
 }
 
-Point3d = record {
+const Point3d = record {
     x: f32,
     y: f32,
     z: f32,
@@ -212,12 +208,12 @@ For example
 ```
 module shapes;
 
-private Point2d = record {
+private const Point2d = record {
   x: f32,
   y: f32,
 }
 
-public Circle = record {
+public const Circle = record {
   center: Point2d,
   radius: f32,
 }
