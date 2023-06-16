@@ -111,6 +111,7 @@ pub struct Decl {
 pub enum StmtKind {
     Expr(Box<Expr>),
     Print(Box<Expr>),
+    Println(Box<Expr>),
     Decl(Box<Decl>),
     Assign(String, Box<Expr>),
 }

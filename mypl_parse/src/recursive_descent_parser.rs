@@ -192,11 +192,22 @@ impl<'a> RecursiveDescentParser<'a> {
     fn statement(&mut self) -> Result<Stmt, ParseError> {
         if self.match_keyword(&Keyword::Print).is_some() {
             self.print_statement()
+        } else if self.match_keyword(&Keyword::Println).is_some() {
+            self.println_statement()
         } else if let Some(stmt) = self.try_assignment_statement()? {
             Ok(stmt)
         }else {
             self.expression_statement()
         }
+    }
+
+    fn println_statement(&mut self) -> Result<Stmt, ParseError> {
+        let expr = self.expression()?;
+        self.match_variant(&TokenKind::SemiColon)
+            .ok_or_else(|| ExpectedToken(";".to_string(), "println_statement".to_string()))?;
+        Ok(Stmt {
+            kind: StmtKind::Println(Box::new(expr)),
+        })
     }
 
     fn print_statement(&mut self) -> Result<Stmt, ParseError> {

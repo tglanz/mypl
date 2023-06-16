@@ -102,10 +102,24 @@ impl StmtVisitor for Interperter {
 
         Ok(())
     }
+    
+    fn visit_println_stmt(&mut self, expr: &Expr) -> Self::Result {
+        match self.evaluate_expr(&expr)? {
+            Value::String(val) => println!("{}", val), 
+            Value::Float(val) => println!("{}", val), 
+            Value::Integer(val) => println!("{}", val), 
+            Value::Bool(val) => println!("{}", val), 
+        }
+        Ok(())
+    }
 
     fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result {
-        let expr_val = self.evaluate_expr(&expr)?; 
-        println!("{:?}", expr_val);
+        match self.evaluate_expr(&expr)? {
+            Value::String(val) => print!("{}", val), 
+            Value::Float(val) => print!("{}", val), 
+            Value::Integer(val) => print!("{}", val), 
+            Value::Bool(val) => print!("{}", val), 
+        }
         Ok(())
     }
 

@@ -79,7 +79,11 @@ fn execute(interperter: &mut Interperter, content: &str, args: &Args) {
         if args.show_tokens {
             println!("\ttoken: {:#?}", token);
         }
-        tokens.push(token);
+
+        match token.kind {
+            TokenKind::Comment(..) => continue,
+            _ => tokens.push(token),
+        }
     }
 
     let mut parser = RecursiveDescentParser::new(&tokens);

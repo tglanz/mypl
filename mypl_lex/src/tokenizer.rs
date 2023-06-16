@@ -114,7 +114,10 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
         ExactTokenizationRule::boxed("i8", TokenKind::Keyword(Keyword::I8)),
         ExactTokenizationRule::boxed("f32", TokenKind::Keyword(Keyword::F32)),
         ExactTokenizationRule::boxed("f16", TokenKind::Keyword(Keyword::F16)),
-        ExactTokenizationRule::boxed("print", TokenKind::Keyword(Keyword::Print)),
+
+        // Prints. Order is important
+        ExactTokenizationRule::boxed("@println", TokenKind::Keyword(Keyword::Println)),
+        ExactTokenizationRule::boxed("@print", TokenKind::Keyword(Keyword::Print)),
         
         // Double Character
         ExactTokenizationRule::boxed("==", TokenKind::EqEq),
@@ -159,12 +162,13 @@ fn create_tokenization_rules() -> Result<Vec<Box<dyn TokenizationRule>>> {
 
         // String Literal
         RegexTokenizationRule::boxed("^\".*\"", |capture| {
-            TokenKind::Literal(Literal::String(capture.as_str().to_string()))
+            // It would be nice to enhance the api such that we can extract specifice match groups
+            TokenKind::Literal(Literal::String(capture.as_str()[1..capture.len()-1].to_string()))
         })?,
 
         // Float Literal 
         // Notice that we only tokenize positive floats - is this good?
-        RegexTokenizationRule::boxed("^\\d+\\.\\d+|^\\d+\\.|\\.\\d+", |capture| {
+        RegexTokenizationRule::boxed("^\\d+\\.\\d+|^\\d+\\.|^\\.\\d+", |capture| {
             TokenKind::Literal(Literal::Float(capture.as_str().parse::<f64>()
                                               .expect("Couldn't parse f64 after regex match")))
         })?,

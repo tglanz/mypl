@@ -1,0 +1,25 @@
+@println "********************";
+@println "**** program 1 *****";
+@println "********************";
+@println "";
+
+// Define a pi constant
+const pi = 3.14;
+
+// Define a radius variable that we will mutate when computing each circumference
+var radius = 1.;
+
+// Compute the first circumference
+const c1 = 2. * pi * radius;
+@print "c1: ";
+@println c1;
+
+// Compute the first circumference
+radius = 2.;
+const c2 = 2. * pi * radius;
+@print "c2: ";
+@println c2;
+
+// Check which circumference is larger 
+@print "c1 > c2: ";
+@println c1 > c2;
