@@ -112,6 +112,7 @@ pub enum StmtKind {
     Expr(Box<Expr>),
     Print(Box<Expr>),
     Decl(Box<Decl>),
+    Assign(String, Box<Expr>),
 }
 
 #[derive(Clone, PartialEq, Debug)]

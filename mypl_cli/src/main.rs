@@ -85,7 +85,7 @@ fn execute(interperter: &mut Interperter, content: &str, args: &Args) {
     let mut parser = RecursiveDescentParser::new(&tokens);
 
     match parser.parse() {
-        Err(parse_error) => println!("ParseErrror::{:?}", parse_error),
+        Err(parse_error) => println!("ParseErrror - {}", parse_error),
         Ok(statements) => {
             if args.show_ast {
                 println!("{}", AstFormatter::format_ast(&statements));
@@ -94,7 +94,7 @@ fn execute(interperter: &mut Interperter, content: &str, args: &Args) {
             if args.interpret {
                 for stmt in statements {
                     match interperter.interpret_stmt(&stmt) {
-                        Err(err) => println!("InterperterError::{:?}", err),
+                        Err(err) => println!("InterperterError - {}", err),
                         _ => {},
                     }
                 }

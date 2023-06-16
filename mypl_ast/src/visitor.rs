@@ -37,6 +37,7 @@ pub trait StmtVisitor {
     fn visit_expr_stmt(&mut self, expr: &Expr) -> Self::Result;
     fn visit_print_stmt(&mut self, expr: &Expr) -> Self::Result;
     fn visit_decl_stmt(&mut self, decl: &Decl) -> Self::Result;
+    fn visit_assign_stmt(&mut self, identifier: &String, expr: &Expr) -> Self::Result;
 }
 
 impl AcceptStmtVisitor for Stmt {
@@ -46,6 +47,7 @@ impl AcceptStmtVisitor for Stmt {
             Expr(expr) => visitor.visit_expr_stmt(expr),
             Print(expr) => visitor.visit_print_stmt(expr),
             Decl(decl) => visitor.visit_decl_stmt(decl),
+            Assign(ident, expr) => visitor.visit_assign_stmt(ident, expr),
         }
     }
 }

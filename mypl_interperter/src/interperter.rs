@@ -7,7 +7,7 @@ use crate::{
     error::InterperterError,
     expr_eval::{
         ExprEval, Value, ValueType
-    }, environment::Environment
+    }, environment::{Environment, Mutability}
 };
 
 pub struct Interperter {
@@ -87,9 +87,9 @@ impl ExprVisitor for Interperter {
     }
 
     fn visit_variable_expr(&mut self, identifier: &String) -> Self::Result {
-        self.global_env
-            .get_value(identifier)
-            .map(|v| v.clone())
+        Ok(self.global_env
+               .get_variable_value(identifier)?
+               .clone())
     }
 }
 
@@ -111,10 +111,22 @@ impl StmtVisitor for Interperter {
 
     fn visit_decl_stmt(&mut self, decl: &Decl) -> Self::Result {
         match &decl.kind {
-            DeclKind::Const(ident, init_expr) | DeclKind::Var(ident, init_expr) => {
-                let expr_val = self.evaluate_expr(init_expr.as_ref())?;
-                self.global_env.insert_value(ident, expr_val)
+            DeclKind::Const(identifier, expr) => {
+                let val = self.evaluate_expr(expr)?;
+                self.global_env.define_variable(identifier, Mutability::Immutable, val)?;
+                Ok(())
+            },
+            DeclKind::Var(identifier, expr) => {
+                let val = self.evaluate_expr(expr)?;
+                self.global_env.define_variable(identifier, Mutability::Mutable, val)?;
+                Ok(())
            },
         }
+    }
+
+    fn visit_assign_stmt(&mut self, identifier: &String, expr: &Expr) -> Self::Result {
+        let value = self.evaluate_expr(expr)?;
+        self.global_env.assign_to_variable(identifier, value)?;
+        Ok(())
     }
 }

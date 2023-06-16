@@ -20,6 +20,9 @@ pub enum InterperterError {
 
     #[error("Environment already contains a value named \"{0}\"")]
     EnvironmentValueAlreadyExists(String),
+
+    #[error("Cannot assign to an immutable variable \"{0}\"")]
+    ImmutableAssignment(String),
 }
 
 

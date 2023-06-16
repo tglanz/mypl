@@ -39,9 +39,30 @@ impl<'a> RecursiveDescentParser<'a> {
         }
     }
 
-    fn advance(&mut self) -> Option<&Token> {
+    fn advance(&mut self) {
         self.position += 1;
-        return self.previous_token();
+    }
+
+    fn retreat(&mut self) {
+        self.position -= 1;
+
+    }
+
+    fn match_twice<T1, T2, M1, M2>(&mut self, mut m1: M1, mut m2: M2) -> Option<(T1, T2)> where
+        M1: FnMut(&mut Self) -> Option<T1>,
+        M2: FnMut(&mut Self) -> Option<T2>,
+    {
+        if let Some(t1) = m1(self) {
+            if let Some(t2) = m2(self) {
+                return Some((t1, t2));
+            } else {
+                self.retreat();
+                return None;
+            }
+        }
+
+        println!("match twice: 3");
+        return None;
     }
 
     fn match_predicate<P: (Fn(&TokenKind) -> bool)>(&mut self, predicate: P) -> Option<Token> {
@@ -103,9 +124,9 @@ impl<'a> RecursiveDescentParser<'a> {
         self.tokens.get(self.position)
     }
 
-    fn previous_token(&mut self) -> Option<&Token> {
-        self.tokens.get(self.position - 1)
-    }
+    // fn previous_token(&mut self) -> Option<&Token> {
+    //     self.tokens.get(self.position - 1)
+    // }
 
     // Grammar
     
@@ -171,7 +192,9 @@ impl<'a> RecursiveDescentParser<'a> {
     fn statement(&mut self) -> Result<Stmt, ParseError> {
         if self.match_keyword(&Keyword::Print).is_some() {
             self.print_statement()
-        } else {
+        } else if let Some(stmt) = self.try_assignment_statement()? {
+            Ok(stmt)
+        }else {
             self.expression_statement()
         }
     }
@@ -183,6 +206,32 @@ impl<'a> RecursiveDescentParser<'a> {
         Ok(Stmt {
             kind: StmtKind::Print(Box::new(expr)),
         })
+    }
+
+    // tries to parse an assignment statement.
+    // this is a self2 token look ahead operation.
+    // first, match identifier and equal sign
+    // second, parse expression
+    // Error is returned when we already matched identifier and equal sign but couldn't parse
+    // expression - it means invalid syntax.
+    // Ok(None) is returned when we don't have a match.
+    fn try_assignment_statement(&mut self) -> Result<Option<Stmt>, ParseError> {
+        if let Some((ident, _)) = self.match_twice(
+            |s| s.match_identifier(),
+            |s| s.match_variant(&TokenKind::Eq))
+        {
+            let expr = self.expression()
+                .map_err(|_| ParseError::Default("assignment_statement expected expression".to_string()))?;
+
+            self.match_variant(&TokenKind::SemiColon)
+                .ok_or_else(|| ExpectedToken(";".to_string(), "try_assignment_statement".to_string()))?;
+
+            return Ok(Some(Stmt {
+                kind: StmtKind::Assign(ident.to_string(), Box::new(expr))
+            }));
+        }
+
+        return Ok(None);
     }
 
     fn expression_statement(&mut self) -> Result<Stmt, ParseError> {
