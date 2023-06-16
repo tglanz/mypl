@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use mypl_lex::prelude::*;
 use mypl_ast::prelude::*;
 
@@ -9,17 +7,17 @@ use crate::{
     error::InterperterError,
     expr_eval::{
         ExprEval, Value, ValueType
-    }
+    }, environment::Environment
 };
 
 pub struct Interperter {
-    variables: HashMap<String, Value>,
+    global_env: Environment,
 }
 
 impl Interperter {
     pub fn new() -> Self {
         Self {
-            variables: Default::default(),
+            global_env: Default::default(),
         }
     }
 
@@ -32,31 +30,6 @@ impl Interperter {
         Ok(())
     }
 }
-
-
-
-// fn deduce_expr_type(expr: &Expr) -> Result<ExprType, InterperterError> {
-//     let expr_type = match &expr.kind {
-//         ExprKind::Literal(lit) => match lit {
-//             Literal::String(_) => ExprType::String,
-//             Literal::Number(_) => ExprType::Integer, // TODO: this is simplification. float != int
-//                                                      // but both are numbers
-//             Literal::Bool(_) => ExprType::Bool,
-//         },
-//         ExprKind::Unary(_, inner) => deduce_expr_type(&inner)?,
-//         ExprKind::Binary(_, lhs, rhs) => {
-//             let lhs_type = deduce_expr_type(&lhs)?;
-//             let rhs_type = deduce_expr_type(&rhs)?;
-//             if lhs_type != rhs_type {
-//                 return Err(InterperterError::BinaryExprTypeMismatch(lhs_type, rhs_type));
-//             }
-// 
-//             lhs_type
-//         }
-//     };
-// 
-//     Ok(expr_type)
-// }
 
 impl ExprVisitor for Interperter {
     type Result = Result<Value, InterperterError>;
@@ -114,11 +87,9 @@ impl ExprVisitor for Interperter {
     }
 
     fn visit_variable_expr(&mut self, identifier: &String) -> Self::Result {
-        if let Some(val) = self.variables.get(identifier) {
-            Ok(val.clone())
-        } else {
-            Err(InterperterError::SymbolNotFound(identifier.to_string(), "Variable".to_string()))
-        }
+        self.global_env
+            .get_value(identifier)
+            .map(|v| v.clone())
     }
 }
 
@@ -142,14 +113,8 @@ impl StmtVisitor for Interperter {
         match &decl.kind {
             DeclKind::Const(ident, init_expr) | DeclKind::Var(ident, init_expr) => {
                 let expr_val = self.evaluate_expr(init_expr.as_ref())?;
-                
-                if self.variables.contains_key(ident) {
-                    return Err(InterperterError::SymbolAlreadyDefined(ident.to_string()))
-                }
-
-                self.variables.insert(ident.to_string(), expr_val);
-                Ok(())
-            },
+                self.global_env.insert_value(ident, expr_val)
+           },
         }
     }
 }

@@ -15,12 +15,11 @@ pub enum InterperterError {
     #[error("Cannot apply unary operator \"{0}\" on type \"{1:?}\"")]
     InvalidUnaryApplication(UnOp, ValueType),
 
-    #[error("Symbol \"{0}\" ({1}) not found")]
-    SymbolNotFound(String, String),
+    #[error("Environment value named \"{0}\" is not found")]
+    EnvironmentValueNotFound(String),
 
-
-    #[error("Symbol \"{0}\" is already defined")]
-    SymbolAlreadyDefined(String),
+    #[error("Environment already contains a value named \"{0}\"")]
+    EnvironmentValueAlreadyExists(String),
 }
 
 

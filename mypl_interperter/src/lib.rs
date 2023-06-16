@@ -7,6 +7,7 @@ extern crate mypl_ast;
 mod interperter;
 mod expr_eval;
 mod error;
+mod environment;
 
 pub mod prelude {
     use crate::*;
