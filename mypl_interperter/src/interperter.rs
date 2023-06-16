@@ -12,11 +12,11 @@ use crate::{
     environment::Environment,
 };
 
-pub struct Interperter {
-    global_env: Environment,
+pub struct Interperter<'a> {
+    global_env: Environment<'a>,
 }
 
-impl Interperter {
+impl<'a> Interperter<'a> {
     pub fn new() -> Self {
         Self {
             global_env: Default::default(),
@@ -33,7 +33,7 @@ impl Interperter {
     }
 }
 
-impl ExprVisitor for Interperter {
+impl<'a> ExprVisitor for Interperter<'a> {
     type Result = Result<Value, InterperterError>;
 
     fn visit_binary_expr(&mut self, op: &BinOp, lhs: &Expr, rhs: &Expr) -> Self::Result {
@@ -95,7 +95,7 @@ impl ExprVisitor for Interperter {
     }
 }
 
-impl StmtVisitor for Interperter {
+impl<'a> StmtVisitor for Interperter<'a> {
     type Result = Result<(), InterperterError>;
 
     fn visit_expr_stmt(&mut self, expr: &Expr) -> Self::Result {
