@@ -7,7 +7,9 @@ use crate::{
     error::InterperterError,
     expr_eval::{
         ExprEval, Value, ValueType
-    }, environment::{Environment, Mutability}
+    },
+    symbol::Mutability,
+    environment::Environment,
 };
 
 pub struct Interperter {

@@ -23,6 +23,12 @@ pub enum InterperterError {
 
     #[error("Cannot assign to an immutable variable \"{0}\"")]
     ImmutableAssignment(String),
+
+    #[error("Symbol \"{0}\" not found")]
+    SymbolNotFound(String),
+
+    #[error("Symbol \"{0}\" already exists")]
+    SymbolAlreadyExists(String),
 }
 
 
